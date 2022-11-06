@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
+/* html{
+  margin-left: 20vw;
+  --prim-color: blue;
+  --second-color: white;
+} */
 
 .App-logo {
   height: 40vmin;
