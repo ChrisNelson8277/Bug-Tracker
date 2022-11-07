@@ -32,6 +32,10 @@
 .App-link {
   color: #61dafb;
 }
+.exit:hover{
+  color: red;
+  cursor: pointer;
+}
 
 @keyframes App-logo-spin {
   from {

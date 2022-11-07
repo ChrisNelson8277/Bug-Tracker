@@ -11,9 +11,10 @@ import Paper from "@mui/material/Paper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./Project.css";
 
-const Projects = () => {
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+const Projects = (props) => {
+  console.log(props);
+  function createData(name, description, fat, carbs, protein) {
+    return { name, description, fat, carbs, protein };
   }
   const rows = [
     createData("Frozen yoghurt", 159, 6.0, 24),
@@ -21,9 +22,9 @@ const Projects = () => {
     createData("Eclair", 262, 16.0, 24),
     createData("Cupcake", 305, 3.7, 67),
   ];
-  const editProject = (name) => {
-    console.log(name);
-  };
+  function editProject(name) {
+    props.setOpenModal(true);
+  }
 
   return (
     <div
@@ -47,7 +48,6 @@ const Projects = () => {
         }}
       >
         <Typography variant="h5">Projects</Typography>
-
         <Button variant="contained">New Project</Button>
       </div>
       <TableContainer component={Paper}>
@@ -69,14 +69,14 @@ const Projects = () => {
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell>{row.calories}</TableCell>
+                <TableCell>{row.description}</TableCell>
                 <TableCell align="right">{row.fat}</TableCell>
                 <TableCell align="right">{row.carbs}</TableCell>
                 <TableCell>
                   <MoreVertIcon
                     className="vert-icon"
                     onClick={() => {
-                      editProject(row.name);
+                      editProject();
                     }}
                   />
                 </TableCell>
