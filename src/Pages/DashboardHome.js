@@ -1,9 +1,12 @@
 import { Grid, Typography } from "@mui/material";
 import React from "react";
+import { useState } from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import Projects from "../Components/dashboard/Projects";
+import AddProject from "../Components/Modals/AddProject";
 
 const DashboardHome = () => {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <div style={{ height: "100vh", backgroundColor: "lightgray" }}>
       <Typography
@@ -19,7 +22,7 @@ const DashboardHome = () => {
         Dashboard
       </Typography>
       <div style={{ position: "relative", marginBottom: "40vh" }}>
-        <Projects />
+        <Projects openModal={openModal} setOpenModal={setOpenModal} />
       </div>
       <Grid
         container
@@ -80,7 +83,7 @@ const DashboardHome = () => {
             ]}
           />
         </Grid>
-        <Grid item xs={3.5} style={{ backgroundColor: "white" }}>
+        <Grid item xs={3.5} p="1rem 0" style={{ backgroundColor: "white" }}>
           <Typography variant="h5" align="left" p="1rem">
             Tickets by Status
           </Typography>
@@ -105,6 +108,7 @@ const DashboardHome = () => {
           </div>
         </Grid>
       </Grid>
+      {openModal === true ? <AddProject setOpenModal={setOpenModal} /> : null}
     </div>
   );
 };
