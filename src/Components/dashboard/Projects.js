@@ -1,6 +1,11 @@
 import { Box } from "@material-ui/core";
-import { Button, Typography } from "@mui/material";
-import React from "react";
+import {
+  Button,
+  TableFooter,
+  TablePagination,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,20 +15,45 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./Project.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentProject } from "../../Slices/projectSlice";
+import { useNavigate } from "react-router";
 
 const Projects = (props) => {
-  console.log(props);
-  function createData(name, description, fat, carbs, protein) {
-    return { name, description, fat, carbs, protein };
-  }
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24),
-    createData("Ice cream sandwich", 237, 9.0, 37),
-    createData("Eclair", 262, 16.0, 24),
-    createData("Cupcake", 305, 3.7, 67),
-  ];
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { projects } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
   function editProject(name) {
     props.setOpenModal(true);
+  }
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - projects.list.projects.length)
+      : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  function viewProject(name, description, id, assignedto) {
+    const project = {
+      name: name,
+      description: description,
+      id: id,
+      assignedto: assignedto,
+    };
+    dispatch(setCurrentProject(project));
+    setTimeout(() => {
+      navigate(`/project/view/${project.id}`);
+    }, 100);
   }
 
   return (
@@ -48,7 +78,14 @@ const Projects = (props) => {
         }}
       >
         <Typography variant="h5">Projects</Typography>
-        <Button variant="contained">New Project</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            editProject();
+          }}
+        >
+          New Project
+        </Button>
       </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -61,28 +98,53 @@ const Projects = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {(rowsPerPage > 0
+              ? projects.list.projects.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+              : projects.list.projects
+            ).map((row, index) => (
               <TableRow
-                key={row.name}
+                className="row-hover"
+                key={index}
+                onClick={() => {
+                  viewProject(
+                    row.name,
+                    row.description,
+                    row.id,
+                    row.assignedto
+                  );
+                }}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
                 <TableCell>{row.description}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="right">
+                  {JSON.parse(row.assignedto) + ""}
+                </TableCell>
+                <TableCell align="right"></TableCell>
                 <TableCell>
-                  <MoreVertIcon
-                    className="vert-icon"
-                    onClick={() => {
-                      editProject();
-                    }}
-                  />
+                  <MoreVertIcon className="vert-icon" />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                colSpan={5}
+                count={projects.list.projects.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </div>

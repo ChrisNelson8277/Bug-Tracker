@@ -9,16 +9,40 @@ const AddProject = (props) => {
   const [worker, setWorker] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  console.log(name, description, worker);
 
   function closeModal() {
     props.setOpenModal(false);
   }
   function submitAddProject() {
-    setName("");
-    setDescription("");
-    setWorker([]);
-    props.setOpenModal(false);
+    const information = {
+      name: name,
+      description: description,
+      assignedto: JSON.stringify(worker),
+    };
+    fetch("http://localhost:5000/add/project", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        information,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        props.setUpdate(Math.random());
+        props.setOpenModal(false);
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+    // setName("");
+    // setDescription("");
+    // setWorker([]);
+    // props.setOpenModal(false);
   }
   const Info_Style = {
     position: "fixed",

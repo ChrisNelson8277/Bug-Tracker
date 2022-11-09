@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import Card from "@mui/material/Card";
@@ -26,6 +26,29 @@ export default function TransferList(props) {
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState(["Danny", "Timmy", "Jimmy", "Lenny"]);
   const [right, setRight] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/get/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        let newdata = [];
+        data.map((user, index) => {
+          newdata.push(user.name);
+          setLeft(newdata);
+          return newdata;
+        });
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  }, []);
   /*left should pull all developers by default */
   /*  Need Left to set members not on project, need right to set members on project  */
 
@@ -103,12 +126,12 @@ export default function TransferList(props) {
         component="div"
         role="list"
       >
-        {items.map((value) => {
+        {items.map((value, index) => {
           const labelId = `transfer-list-all-item-${value}-label`;
 
           return (
             <ListItem
-              key={value}
+              key={index}
               role="listitem"
               button
               onClick={handleToggle(value)}

@@ -6,11 +6,14 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./Slices/authSlice";
 import bugReducer from "./Slices/bugSlice";
 import userReducer from "./Slices/userSlice";
+import projectReducer from "./Slices/projectSlice";
+import { BrowserRouter } from "react-router-dom";
 
 const reducer = combineReducers({
   auth: authReducer,
   bug: bugReducer,
   user: userReducer,
+  projects: projectReducer,
 });
 
 const store = configureStore({
@@ -20,7 +23,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

@@ -2,3 +2,7 @@
     color: green;
     cursor: pointer;
 }
+.row-hover:hover{
+    cursor: pointer;
+    background-color: aqua;
+}

@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../Slices/authSlice";
+import { useNavigate } from "react-router";
 function Copyright(props) {
   return (
     <Typography
@@ -35,20 +36,42 @@ function Copyright(props) {
 const theme = createTheme();
 
 const LoginComponent = () => {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     const information = {
-      name: data.get("email"),
+      user: data.get("email"),
       password: data.get("password"),
     };
-    dispatch(signIn(information));
+    fetch("http://localhost:5000/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        information,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        if (data.code === 200) {
+          const newData = {
+            role: data.role,
+            name: data.name,
+          };
+          dispatch(signIn(newData));
+          navigate("/home");
+        }
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
   };
 
   return (
@@ -122,7 +145,7 @@ const LoginComponent = () => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

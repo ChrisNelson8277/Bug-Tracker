@@ -1,12 +1,43 @@
 import { Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { PieChart } from "react-minimal-pie-chart";
+import { useDispatch, useSelector } from "react-redux";
 import Projects from "../Components/dashboard/Projects";
 import AddProject from "../Components/Modals/AddProject";
+import { Navigate } from "react-router-dom";
+import { setProjects } from "../Slices/projectSlice";
 
 const DashboardHome = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [update, setUpdate] = useState();
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    fetch("http://localhost:5000/get/allprojects", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        const project = {
+          list: data.results,
+        };
+        dispatch(setProjects(project));
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  }, [update]);
+  if (auth.loggedIn === false) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div style={{ height: "100vh", backgroundColor: "lightgray" }}>
       <Typography
@@ -108,7 +139,9 @@ const DashboardHome = () => {
           </div>
         </Grid>
       </Grid>
-      {openModal === true ? <AddProject setOpenModal={setOpenModal} /> : null}
+      {openModal === true ? (
+        <AddProject setUpdate={setUpdate} setOpenModal={setOpenModal} />
+      ) : null}
     </div>
   );
 };

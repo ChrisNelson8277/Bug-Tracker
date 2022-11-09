@@ -13,8 +13,20 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../Slices/authSlice";
+import { useNavigate } from "react-router";
+
 const drawerWidth = 240;
 const Sidebar = (props) => {
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  const { auth } = useSelector((state) => state);
+
+  const logout = (text) => {
+    dispatch(signOut());
+    localStorage.removeItem("user");
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -34,18 +46,66 @@ const Sidebar = (props) => {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar style={{ backgroundColor: "lightblue" }}>
-          Welcome! user
+        <Toolbar
+          style={{ backgroundColor: "lightblue", textTransform: "capitalize" }}
+        >
+          Welcome! {auth.name ? <>{auth.name.split(" ")[0]}</> : "Welcome user"}
         </Toolbar>
         <Divider />
         <List>
-          {[
+          {/* {[
             "Dashboard Home",
             "Manage Role Assignment",
             "Manage Project Users",
             "Tickets",
-          ].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          ]} */}
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Dashboard Home"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Manage Role Assignment"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Manage Project Users"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Tickets"} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          {["Logout"].map((text, index) => (
+            <ListItem
+              key={text}
+              disablePadding
+              onClick={() => {
+                logout();
+              }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -55,19 +115,6 @@ const Sidebar = (props) => {
             </ListItem>
           ))}
         </List>
-        {/* <Divider /> */}
-        {/* <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
       </Drawer>
       <Box
         component="main"
