@@ -11,6 +11,7 @@ import { setProjects } from "../Slices/projectSlice";
 const DashboardHome = () => {
   const [openModal, setOpenModal] = useState(false);
   const [update, setUpdate] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,6 +30,9 @@ const DashboardHome = () => {
           list: data.results,
         };
         dispatch(setProjects(project));
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 100);
       })
       .catch((e) => {
         console.error(e.error);
@@ -36,6 +40,9 @@ const DashboardHome = () => {
   }, [update]);
   if (auth.loggedIn === false) {
     return <Navigate to="/" replace />;
+  }
+  if (isLoading === true) {
+    return <div>loading...</div>;
   }
 
   return (

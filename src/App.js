@@ -24,7 +24,6 @@ function App() {
       dispatch(signIn(JSON.parse(isLoggedIn)));
     }
   }, []);
-
   return (
     <div className="App">
       <Routes>

@@ -40,7 +40,13 @@ export default function TransferList(props) {
       .then((data) => {
         let newdata = [];
         data.map((user, index) => {
-          newdata.push(user.name);
+          let users = {
+            name: user.name,
+            email: user.email,
+            number: user.number,
+          };
+
+          newdata.push(users);
           setLeft(newdata);
           return newdata;
         });
@@ -146,7 +152,7 @@ export default function TransferList(props) {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`${value}`} />
+              <ListItemText id={labelId} primary={`${value.name}`} />
             </ListItem>
           );
         })}

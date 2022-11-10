@@ -11,9 +11,9 @@ import { Button, Typography } from "@mui/material";
 
 const TicketTable = (props) => {
   const [currentRow, setCurrentRow] = useState();
-  const handleSelect = (index) => {
+  const handleSelect = (index, row) => {
     setCurrentRow(index);
-    props.set;
+    props.setCurrentTicket(row);
   };
   return (
     <TableContainer component={Paper}>

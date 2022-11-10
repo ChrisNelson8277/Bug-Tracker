@@ -55,40 +55,52 @@ const Projects = (props) => {
       navigate(`/project/view/${project.id}`);
     }, 100);
   }
+  const handleJson = (data) => {
+    let members = [];
+    let a;
+    for (a = 0; a < data.length; a++) {
+      if (a === data.length) {
+        members.push(data[a].name);
+        return;
+      } else if (a <= data.length) {
+        members.push(data[a].name + ", ");
+      }
+    }
+    return members;
+  };
 
   return (
     <div
       style={{
         zIndex: "10",
-        backgroundColor: "white",
         position: "absolute",
         top: "-3rem",
         width: "80%",
         left: "0",
         right: "0",
         margin: "0 auto",
-        padding: "1rem 3rem",
+        padding: "1rem 0rem",
       }}
     >
-      <div
-        style={{
-          padding: "1rem 3rem",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="h5">Projects</Typography>
-        <Button
-          variant="contained"
-          onClick={() => {
-            editProject();
+      <TableContainer component={Paper}>
+        <div
+          style={{
+            padding: "1rem 3rem",
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          New Project
-        </Button>
-      </div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Typography variant="h5">Projects</Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              editProject();
+            }}
+          >
+            New Project
+          </Button>
+        </div>
+        <Table sx={{ minWidth: "100%" }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Project</TableCell>
@@ -118,12 +130,16 @@ const Projects = (props) => {
                 }}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{ fontWeight: "900", fontSize: "1.1rem" }}
+                  component="th"
+                  scope="row"
+                >
                   {row.name}
                 </TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell align="right">
-                  {JSON.parse(row.assignedto) + ""}
+                  {handleJson(JSON.parse(row.assignedto))}
                 </TableCell>
                 <TableCell align="right"></TableCell>
                 <TableCell>
