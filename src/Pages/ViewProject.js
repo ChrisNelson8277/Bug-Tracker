@@ -1,9 +1,6 @@
-import { Nightlife } from "@mui/icons-material";
 import { Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import AddProject from "../Components/Modals/AddProject";
 import AddTicket from "../Components/Modals/AddTicket";
 import TeamTable from "../Components/viewproject/TeamTable";
 import TicketInformation from "../Components/viewproject/TicketInformation";
@@ -18,7 +15,6 @@ const ViewProject = () => {
   const [tickets, setTickets] = useState([]);
   const [update, setUpdate] = useState();
   const [currentTicket, setCurrentTicket] = useState();
-  console.log(tickets);
   let { id } = useParams();
   useEffect(() => {
     const information = {
@@ -46,6 +42,7 @@ const ViewProject = () => {
           let ticketData = [];
           data.tickets.map((arr) => {
             ticketData.push(JSON.parse(arr));
+            return arr;
           });
           setTickets(ticketData);
           setIsLoading(false);
@@ -58,14 +55,7 @@ const ViewProject = () => {
   if (loading) {
     return <div>....Loading</div>;
   }
-  const handleTickets = (ticket) => {
-    console.log("handling ticket");
-    let a;
-    for (a = 0; a > tickets.length; a++) {
-      console.log(ticket[a]);
-    }
-    setIsLoading(false);
-  };
+
   return (
     <div style={{ backgroundColor: "lightgray", minHeight: "100vh" }}>
       <Typography
@@ -111,7 +101,7 @@ const ViewProject = () => {
               setOpenModal={setOpenModal}
               tickets={tickets}
               members={members}
-              setCurrentProject={setCurrentProject}
+              setCurrentTicket={setCurrentTicket}
               currentProject={currentProject}
             />
           </Grid>
