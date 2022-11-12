@@ -15,6 +15,7 @@ const ViewProject = () => {
   const [tickets, setTickets] = useState([]);
   const [update, setUpdate] = useState();
   const [currentTicket, setCurrentTicket] = useState();
+  const [comments, setComments] = useState();
   let { id } = useParams();
   useEffect(() => {
     const information = {
@@ -36,22 +37,20 @@ const ViewProject = () => {
       .then((data) => {
         if (data.code === 200) {
           setCurrentProject(data.results);
-          console.log(data.tickets);
           setMembers(data.members);
-          console.log(data.tickets.length);
-          let ticketData = [];
-          data.tickets.map((arr) => {
-            ticketData.push(JSON.parse(arr));
-            return arr;
-          });
-          setTickets(ticketData);
+          //   let ticketData = [];
+          //   data.tickets.map((arr) => {
+          //     ticketData.push(JSON.parse(arr));
+          //     return arr;
+          //   });
+          //   setTickets(ticketData);
           setIsLoading(false);
         }
       })
       .catch((e) => {
         console.error(e.error);
       });
-  }, []);
+  }, [update]);
   if (loading) {
     return <div>....Loading</div>;
   }
@@ -97,16 +96,23 @@ const ViewProject = () => {
           <Grid xs={12} md={6} lg={7}>
             <div style={{ backgroundColor: "white" }}></div>
             <TicketTable
+              setComments={setComments}
               loading={loading}
               setOpenModal={setOpenModal}
               tickets={tickets}
               members={members}
+              setTickets={setTickets}
               setCurrentTicket={setCurrentTicket}
               currentProject={currentProject}
             />
           </Grid>
           <Grid xs={12}>
-            <TicketInformation currentTicket={currentTicket} />
+            <TicketInformation
+              update={update}
+              comments={comments}
+              setComments={setComments}
+              currentTicket={currentTicket}
+            />
           </Grid>
         </Grid>
       </div>

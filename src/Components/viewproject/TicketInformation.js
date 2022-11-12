@@ -1,21 +1,57 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
+import "./ticket.css";
 
 const TicketInformation = (props) => {
-  const [comments, setComments] = useState({
-    name: "Christopher Nelson",
-    comment: "My First Comment",
-    timeStamp: new Date(),
-  });
-  const [commentData, setCommentData] = useState();
+  const [commentData, setCommentData] = useState("");
+  const { auth } = useSelector((state) => state);
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [props.comments]);
   const handleAddComment = () => {
-    let date = new Date();
-    var year = date.getFullYear().toString();
-    var month = date.getMonth() + 1;
-    var day = date.getDate().toString();
-    var currentTime = date.getHours();
-    var fullDate = month.toString() + "-" + day + "-" + year;
-    console.log(fullDate, currentTime);
+    let newComment = {
+      id: props.currentTicket.ticket_id,
+      commentId: uuidv4(),
+      author: auth.name,
+      time: moment().format("h:mm:ss a"),
+      date: moment().format("MMMM Do YYYY"),
+      comment: commentData,
+    };
+    fetch("http://localhost:5000/add/comment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: props.currentTicket.ticket_id,
+        commentId: uuidv4(),
+        author: auth.name,
+        date: "fullDate",
+        comment: commentData,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        if (data.code === 200) {
+          props.setComments([...props.comments, newComment]);
+          console.log(props);
+        }
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
   };
   if (!props.currentTicket) {
     return (
@@ -143,6 +179,7 @@ const TicketInformation = (props) => {
                   align="left"
                   p="0.5rem 1rem"
                   style={{
+                    textTransform: "capitalize",
                     fontSize: "1.2rem",
                     fontWeight: "800",
                   }}
@@ -237,21 +274,27 @@ const TicketInformation = (props) => {
             >
               Comments
             </Typography>
-            <div>
-              {comments ? (
-                <div
-                  style={{
-                    textAlign: "left",
-                    padding: "1rem",
-                    fontSize: "0.7rem",
-                  }}
-                >
-                  <span>{comments.name}- 11/10/2022 6:34P.M:</span>
-                  <div style={{ padding: "0", fontSize: "0.9rem" }}>
-                    {comments.comment}
-                  </div>
-                </div>
-              ) : null}
+            <div className="comment-container">
+              {props.comments
+                ? props.comments.map((row) => (
+                    <div
+                      key={row.commentId}
+                      style={{
+                        textAlign: "left",
+                        padding: "0.3rem 1rem",
+                        fontSize: "0.7rem",
+                      }}
+                    >
+                      <span style={{ textTransform: "capitalize" }}>
+                        {row.author}- {row.date}- {row.time}
+                      </span>
+                      <div style={{ padding: "0", fontSize: "0.9rem" }}>
+                        {row.comment}
+                      </div>
+                    </div>
+                  ))
+                : null}
+              <div ref={messagesEndRef}></div>
             </div>
             <Grid
               container

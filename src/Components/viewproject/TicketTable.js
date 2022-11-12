@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,10 +8,54 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, Typography } from "@mui/material";
+import { useParams } from "react-router";
 
-const TicketTable = (props) => {
+const TicketTable = (props, { update }) => {
   const [currentRow, setCurrentRow] = useState();
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  useEffect(() => {
+    fetch("http://localhost:5000/get/tickets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        if (data.code === 200) {
+          console.log(data.results);
+          props.setTickets(data.results);
+          setLoading(false);
+          //   let ticketData = [];
+          //   data.tickets.map((arr) => {
+          //     ticketData.push(JSON.parse(arr));
+          //     return arr;
+          //   });
+          //   setTickets(ticketData);
+        }
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  }, []);
+  if (loading) {
+    return <div>loading...</div>;
+  }
   const handleSelect = (index, row) => {
+    let ticketData = [];
+    let ticketInfo = JSON.parse(row.comments);
+    ticketInfo.map((arr) => {
+      ticketData.push(JSON.parse(arr));
+      return arr;
+    });
+    props.setComments(ticketData.reverse());
     setCurrentRow(index);
     props.setCurrentTicket(row);
   };
