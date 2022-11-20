@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,8 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
 import TransferTicket from "../viewproject/TicketTransfer";
+import EditTransfer from "../viewproject/EditTransfer";
 
-const AddTicket = (props) => {
+const EditTicket = (props) => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [status, setStatus] = useState("");
@@ -18,21 +19,30 @@ const AddTicket = (props) => {
   const [update, setUpdate] = useState();
   const [assigned, setAssigned] = useState();
   const { auth } = useSelector((state) => state);
+  useEffect(() => {
+    return () => {
+      setName(props.currentTicket.title);
+      setDescription(props.currentTicket.description);
+      setPriority(props.currentTicket.priority);
+      setType(props.currentTicket.type);
+      setStatus(props.currentTicket.status);
+    };
+  }, [update]);
+  console.log(props.currentTicket);
   function closeModal() {
     props.setOpenModal(false);
   }
   function submitAddProject() {
     const information = {
       title: name,
-      author: auth.name,
       description: description,
       priority: priority,
       status: status,
       type: type,
-      id: props.currentProject[0].id,
       assignedTo: assigned,
+      ticketId: props.currentTicket.ticket_id,
     };
-    fetch("http://localhost:5000/add/ticket", {
+    fetch("http://localhost:5000/edit/ticket", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -47,6 +57,7 @@ const AddTicket = (props) => {
       })
       .then((data) => {
         if (data.code === 200) {
+          props.setUpdate(Math.random());
           props.setOpenModal(false);
         }
         // props.setUpdate(Math.random());
@@ -96,6 +107,7 @@ const AddTicket = (props) => {
   const handleChangePriority = (event) => {
     setPriority(event.target.value);
   };
+
   const element = document.getElementById("portal");
   return ReactDOM.createPortal(
     <>
@@ -103,7 +115,7 @@ const AddTicket = (props) => {
         <div style={Info_Style}>
           <div style={Container}>
             <Typography variant="h5" p="0" m="0">
-              Add Ticket
+              Edit Ticket
             </Typography>
             <CloseIcon
               className="exit"
@@ -144,7 +156,10 @@ const AddTicket = (props) => {
             />
           </div>
           {/* <TransferList setWorker={setWorker} /> */}
-          <TransferTicket setAssigned={setAssigned} />
+          <EditTransfer
+            currentTicket={props.currentTicket}
+            setAssigned={setAssigned}
+          ></EditTransfer>
           <div
             style={{
               display: "flex",
@@ -230,4 +245,4 @@ const AddTicket = (props) => {
   );
 };
 
-export default AddTicket;
+export default EditTicket;

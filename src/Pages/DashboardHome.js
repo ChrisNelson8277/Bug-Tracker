@@ -87,9 +87,9 @@ const DashboardHome = () => {
             })}
             labelPosition={50}
             data={[
-              { title: "High", label: "test", value: 10, color: "#FF0000" },
-              { title: "Med", value: 15, color: "#FFA500" },
-              { title: "low", value: 20, color: "#FFFF00" },
+              { title: "High", label: "test", value: 1, color: "#FF0000" },
+              { title: "Med", value: 2, color: "#FFA500" },
+              { title: "low", value: 3, color: "#FFFF00" },
             ]}
           />
         </Grid>

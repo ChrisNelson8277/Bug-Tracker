@@ -17,6 +17,7 @@ const ViewProject = () => {
   const [currentTicket, setCurrentTicket] = useState();
   const [comments, setComments] = useState();
   let { id } = useParams();
+  console.log(update);
   useEffect(() => {
     const information = {
       id: id,
@@ -56,7 +57,12 @@ const ViewProject = () => {
   }
 
   return (
-    <div style={{ backgroundColor: "lightgray", minHeight: "100vh" }}>
+    <div
+      style={{
+        backgroundColor: "lightgray",
+        minHeight: "125vh",
+      }}
+    >
       <Typography
         align="left"
         variant="h5"
@@ -101,6 +107,7 @@ const ViewProject = () => {
               setOpenModal={setOpenModal}
               tickets={tickets}
               members={members}
+              update={update}
               setTickets={setTickets}
               setCurrentTicket={setCurrentTicket}
               currentProject={currentProject}
@@ -109,6 +116,7 @@ const ViewProject = () => {
           <Grid xs={12}>
             <TicketInformation
               update={update}
+              setUpdate={setUpdate}
               comments={comments}
               setComments={setComments}
               currentTicket={currentTicket}

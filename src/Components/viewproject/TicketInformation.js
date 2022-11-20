@@ -4,11 +4,12 @@ import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import "./ticket.css";
+import EditTicket from "../Modals/EditTicket";
 
 const TicketInformation = (props) => {
   const [commentData, setCommentData] = useState("");
+  const [openModal, setOpenModal] = useState(false);
   const { auth } = useSelector((state) => state);
-
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -46,7 +47,6 @@ const TicketInformation = (props) => {
       .then((data) => {
         if (data.code === 200) {
           props.setComments([...props.comments, newComment]);
-          console.log(props);
         }
       })
       .catch((e) => {
@@ -84,6 +84,7 @@ const TicketInformation = (props) => {
       </>
     );
   }
+  const assignedDevs = JSON.parse(props.currentTicket.assignedmembers);
   return (
     <div
       style={{
@@ -102,6 +103,7 @@ const TicketInformation = (props) => {
       >
         Selected Ticket Info
       </Typography>
+      <div></div>
       {props.currentTicket.title ? (
         <Grid
           container
@@ -112,6 +114,21 @@ const TicketInformation = (props) => {
           }}
         >
           <Grid
+            xs={12}
+            p="1rem"
+            style={{ display: "flex", justifyContent: "flex-start" }}
+          >
+            <Button
+              variant="contained"
+              style={{ textAlign: "right" }}
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
+              Edit
+            </Button>
+          </Grid>
+          <Grid
             xs={6.5}
             style={{
               boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
@@ -119,7 +136,7 @@ const TicketInformation = (props) => {
               borderRadius: "10px",
             }}
           >
-            <Grid container>
+            <Grid container style={{ borderBottom: "1px solid lightgray" }}>
               <Grid xs={3} p="0.3rem">
                 <Typography
                   align="left"
@@ -254,6 +271,34 @@ const TicketInformation = (props) => {
                 </div>
               </Grid>
             </Grid>
+            <Grid xs={12} p="0.3rem 1rem">
+              <Typography
+                variant="h5"
+                p="1rem 0.5rem"
+                align="left"
+                style={{ fontSize: "0.8rem", color: "gray" }}
+              >
+                Assigned Developers
+              </Typography>
+              <div>
+                {assignedDevs
+                  ? assignedDevs.map((row, index) => {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            textAlign: "left",
+                            padding: "1rem 0.5rem",
+                            fontWeight: "800",
+                          }}
+                        >
+                          {row.name}
+                        </div>
+                      );
+                    })
+                  : null}
+              </div>
+            </Grid>
           </Grid>
           <Grid
             xs={5.2}
@@ -334,6 +379,13 @@ const TicketInformation = (props) => {
             </Grid>
           </Grid>
         </Grid>
+      ) : null}
+      {openModal === true ? (
+        <EditTicket
+          currentTicket={props.currentTicket}
+          setOpenModal={setOpenModal}
+          setUpdate={props.setUpdate}
+        ></EditTicket>
       ) : null}
     </div>
   );

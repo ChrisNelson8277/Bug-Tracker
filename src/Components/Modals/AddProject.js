@@ -16,7 +16,7 @@ const AddProject = (props) => {
     const information = {
       name: name,
       description: description,
-      assignedto: JSON.stringify(worker),
+      assignedto: worker,
     };
     fetch("http://localhost:5000/add/project", {
       method: "POST",
@@ -32,8 +32,11 @@ const AddProject = (props) => {
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
-        props.setUpdate(Math.random());
-        props.setOpenModal(false);
+        console.log(data);
+        if (data.code === 200) {
+          props.setUpdate(Math.random());
+          props.setOpenModal(false);
+        }
       })
       .catch((e) => {
         console.error(e.error);

@@ -44,7 +44,7 @@ const TicketTable = (props, { update }) => {
       .catch((e) => {
         console.error(e.error);
       });
-  }, []);
+  }, [props.update]);
   if (loading) {
     return <div>loading...</div>;
   }
