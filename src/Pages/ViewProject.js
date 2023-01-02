@@ -115,6 +115,7 @@ const ViewProject = () => {
           </Grid>
           <Grid xs={12}>
             <TicketInformation
+              members={members}
               update={update}
               setUpdate={setUpdate}
               comments={comments}

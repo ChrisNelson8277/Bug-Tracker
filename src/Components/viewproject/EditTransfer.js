@@ -28,6 +28,19 @@ export default function EditTransfer(props) {
   const [right, setRight] = useState([]);
   useEffect(() => {
     const assignedDevs = JSON.parse(props.currentTicket.assignedmembers);
+    const filterDevs = () => {
+      let res = [];
+      res = props.members.filter((el) => {
+        return !assignedDevs.find((element) => {
+          return element.name === el.name;
+        });
+      });
+      console.log(res);
+      setLeft(res);
+      return res;
+    };
+    filterDevs();
+    console.log(assignedDevs, props.members);
     setRight(assignedDevs);
     props.setAssigned(assignedDevs);
   }, []);
@@ -70,6 +83,8 @@ export default function EditTransfer(props) {
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
+    props.setAssigned(not(right, rightChecked));
+    console.log(props.assigned);
     setChecked(not(checked, rightChecked));
   };
 

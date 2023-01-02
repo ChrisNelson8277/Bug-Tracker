@@ -382,6 +382,7 @@ const TicketInformation = (props) => {
       ) : null}
       {openModal === true ? (
         <EditTicket
+          members={props.members}
           currentTicket={props.currentTicket}
           setOpenModal={setOpenModal}
           setUpdate={props.setUpdate}

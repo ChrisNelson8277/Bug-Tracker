@@ -28,10 +28,6 @@ const EditTicket = (props) => {
       setStatus(props.currentTicket.status);
     };
   }, [update]);
-  console.log(props.currentTicket);
-  function closeModal() {
-    props.setOpenModal(false);
-  }
   function submitAddProject() {
     const information = {
       title: name,
@@ -42,6 +38,7 @@ const EditTicket = (props) => {
       assignedTo: assigned,
       ticketId: props.currentTicket.ticket_id,
     };
+    console.log(information.assignedTo);
     fetch("http://localhost:5000/edit/ticket", {
       method: "POST",
       headers: {
@@ -157,8 +154,10 @@ const EditTicket = (props) => {
           </div>
           {/* <TransferList setWorker={setWorker} /> */}
           <EditTransfer
+            members={props.members}
             currentTicket={props.currentTicket}
             setAssigned={setAssigned}
+            assigned={assigned}
           ></EditTransfer>
           <div
             style={{
