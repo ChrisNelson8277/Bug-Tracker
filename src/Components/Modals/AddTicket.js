@@ -30,6 +30,7 @@ const AddTicket = (props) => {
       status: status,
       type: type,
       id: props.currentProject[0].id,
+      projectName: props.currentProject[0].name,
       assignedTo: assigned,
     };
     fetch("http://localhost:5000/add/ticket", {

@@ -13,6 +13,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import ArticleIcon from "@mui/icons-material/Article";
+import PeopleIcon from "@mui/icons-material/People";
+import LogoutIcon from "@mui/icons-material/Logout";
+import HomeIcon from "@mui/icons-material/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../Slices/authSlice";
 import { useNavigate } from "react-router";
@@ -66,31 +70,39 @@ const Sidebar = (props) => {
               }}
             >
               <ListItemIcon>
-                <InboxIcon />
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary={"Dashboard Home"} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={"Manage Role Assignment"} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                navigate("/manage-users");
+              }}
+            >
               <ListItemIcon>
-                <InboxIcon />
+                <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary={"Manage Project Users"} />
+              <ListItemText primary={"Manage Users"} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                navigate("/tickets");
+              }}
+            >
               <ListItemIcon>
-                <InboxIcon />
+                <ArticleIcon />
               </ListItemIcon>
               <ListItemText primary={"Tickets"} />
             </ListItemButton>
@@ -108,7 +120,7 @@ const Sidebar = (props) => {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <LogoutIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>

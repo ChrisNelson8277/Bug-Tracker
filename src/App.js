@@ -8,12 +8,13 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
-import ViewBug from "./Pages/ViewBug";
 import DashboardHome from "./Pages/DashboardHome";
 import SignUp from "./Components/login/SignUp";
 import { useEffect } from "react";
 import { signIn } from "./Slices/authSlice";
 import ViewProject from "./Pages/ViewProject";
+import Tickets from "./Pages/Tickets";
+import ManageUsers from "./Pages/ManageUsers";
 function App() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,7 +48,6 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/project/view/">
           <Route
             path=":id"
@@ -60,6 +60,26 @@ function App() {
             }
           />
         </Route>
+        <Route
+          path="/tickets"
+          element={
+            <>
+              <Sidebar>
+                <Tickets />
+              </Sidebar>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/manage-users"
+          element={
+            <>
+              <Sidebar>
+                <ManageUsers />
+              </Sidebar>
+            </>
+          }
+        ></Route>
       </Routes>
     </div>
   );

@@ -7,6 +7,9 @@ import authReducer from "./Slices/authSlice";
 import bugReducer from "./Slices/bugSlice";
 import userReducer from "./Slices/userSlice";
 import projectReducer from "./Slices/projectSlice";
+import ticketReducer from "./Slices/ticketSlice";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
 import { BrowserRouter } from "react-router-dom";
 
 const reducer = combineReducers({
@@ -14,7 +17,9 @@ const reducer = combineReducers({
   bug: bugReducer,
   user: userReducer,
   projects: projectReducer,
+  tickets: ticketReducer,
 });
+TimeAgo.addDefaultLocale(en);
 
 const store = configureStore({
   reducer,

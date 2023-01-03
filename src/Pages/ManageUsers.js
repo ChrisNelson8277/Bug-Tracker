@@ -12,44 +12,38 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useDispatch, useSelector } from "react-redux";
-import { setTickets } from "../Slices/ticketSlice";
-import ReactTimeAgo from "react-time-ago";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const Tickets = () => {
-  const dispatch = useDispatch();
-  const { auth, tickets } = useSelector((state) => state);
+import { useSelector } from "react-redux";
+
+const ManageUsers = () => {
+  const { auth } = useSelector((state) => state);
   const [page, setPage] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [loading, setIsLoading] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const userName = auth.name;
 
   useEffect(() => {
-    fetch("http://localhost:5000/get/userTickets", {
-      method: "POST",
+    fetch("http://localhost:5000/get/users", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ author: userName }),
     })
       .then((res) => {
         if (res.ok) return res.json();
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
-        dispatch(setTickets(data.results.reverse()));
-        setTimeout(() => {
-          console.log(tickets);
-        }, 100);
+        setUsers(data);
+        setIsLoading(false);
       })
       .catch((e) => {
         console.error(e.error);
       });
   }, []);
-
-  const emptyRows =
-    page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - tickets.allTickets.length)
-      : 0;
+  console.log(users);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - 2) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -59,44 +53,10 @@ const Tickets = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handlePriority = (priority) => {
-    if (priority === "high") {
-      return (
-        <div
-          style={{
-            color: "red",
-            textTransform: "capitalize",
-            fontWeight: "700",
-          }}
-        >
-          {priority}❗
-        </div>
-      );
-    } else if (priority === "medium") {
-      return (
-        <div
-          style={{
-            fontWeight: "900",
-            color: "orange",
-            textTransform: "capitalize",
-          }}
-        >
-          {priority}
-        </div>
-      );
-    } else if (priority === "low") {
-      return (
-        <div
-          style={{
-            fontWeight: "900",
-            textTransform: "capitalize",
-          }}
-        >
-          {priority}
-        </div>
-      );
-    }
-  };
+
+  if (loading) {
+    return <div>...loading</div>;
+  }
 
   return (
     <div
@@ -116,7 +76,7 @@ const Tickets = () => {
           width: "100%",
         }}
       >
-        Dashboard
+        BugTracker
       </Typography>
       <div
         style={{
@@ -137,7 +97,7 @@ const Tickets = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h5">My tickets</Typography>
+            <Typography variant="h5">Manage Users</Typography>
           </div>
           <Table
             sx={{ minWidth: "100%", padding: "1rem 5rem" }}
@@ -145,53 +105,68 @@ const Tickets = () => {
           >
             <TableHead>
               <TableRow style={{ fontSize: "1.3rem" }}>
-                <TableCell style={{ fontSize: "1.3rem", fontWeight: "900" }}>
-                  Ticket
+                <TableCell
+                  align="center"
+                  style={{ fontSize: "1.3rem", fontWeight: "900" }}
+                >
+                  Name
                 </TableCell>
-                <TableCell style={{ fontSize: "1.3rem", fontWeight: "900" }}>
-                  Project
+                <TableCell
+                  align="center"
+                  style={{ fontSize: "1.3rem", fontWeight: "900" }}
+                >
+                  Role
                 </TableCell>
-                <TableCell style={{ fontSize: "1.3rem", fontWeight: "900" }}>
-                  Description
+                <TableCell
+                  align="center"
+                  style={{ fontSize: "1.3rem", fontWeight: "900" }}
+                >
+                  E-Mail
                 </TableCell>
-                <TableCell style={{ fontSize: "1.3rem" }} align="center">
+                <TableCell />
+                {/* <TableCell style={{ fontSize: "1.3rem" }} align="center">
                   Priority
                 </TableCell>
                 <TableCell style={{ fontSize: "1.3rem" }} align="right">
                   Date Opened
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                ? tickets.allTickets.slice(
+                ? users.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage
                   )
-                : tickets.allTickets
+                : users
               ).map((row, index) => (
                 <TableRow
-                  className="row-hover"
+                  className="row"
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
-                    style={{ fontSize: "1.1rem" }}
+                    style={{ fontSize: "1.1rem", textTransform: "capitalize" }}
                     component="th"
                     scope="row"
+                    align="center"
                   >
-                    {row.title}
+                    {row.name}
                   </TableCell>
-                  <TableCell>{row.project_name}</TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  <TableCell align="center">
-                    {handlePriority(row.priority)}
+                  <TableCell
+                    align="center"
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {row.role}
                   </TableCell>
-                  <TableCell align="right">
-                    <ReactTimeAgo
-                      date={row.start.replace(" ", ", ")}
-                      locale="en-US"
-                    />
+                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align="left">
+                    <Button
+                      //   style={{ backgroundColor: "red" }}
+                      variant="contained"
+                    >
+                      Edit
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -201,7 +176,7 @@ const Tickets = () => {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                   colSpan={5}
-                  count={tickets.allTickets.length}
+                  count={users.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
@@ -216,4 +191,4 @@ const Tickets = () => {
   );
 };
 
-export default Tickets;
+export default ManageUsers;
