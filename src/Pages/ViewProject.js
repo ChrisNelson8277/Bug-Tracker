@@ -1,15 +1,19 @@
 import { Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import AddMemberModal from "../Components/Modals/AddMemberModal";
 import AddTicket from "../Components/Modals/AddTicket";
+import AddMember from "../Components/viewproject/AddMember";
 import TeamTable from "../Components/viewproject/TeamTable";
 import TicketInformation from "../Components/viewproject/TicketInformation";
 import TicketTable from "../Components/viewproject/TicketTable";
+import logo from "../images/bug-tracker.png";
 import "./viewproject.css";
 
 const ViewProject = () => {
   const [loading, setIsLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+  const [openMemberModal, setOpenMemberModal] = useState(false);
   const [currentProject, setCurrentProject] = useState();
   const [members, setMembers] = useState();
   const [tickets, setTickets] = useState([]);
@@ -63,22 +67,37 @@ const ViewProject = () => {
         minHeight: "125vh",
       }}
     >
-      <Typography
+      <div
         align="left"
         variant="h5"
         style={{
-          color: "white",
-          backgroundColor: "#1e81b0",
+          backgroundColor: "#1976d2",
           padding: "1rem",
-          height: "15rem",
           position: "relative",
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        Project
-        <Typography style={{ margin: "5rem 0" }}>
-          {currentProject[0].name}
+        <img
+          style={{
+            width: "100%",
+            maxWidth: "400px",
+            height: "auto",
+            marginBottom: "3vh",
+          }}
+          src={logo}
+        ></img>
+        <Typography style={{ fontSize: "1.3rem", margin: "5rem 0" }}>
+          <span
+            style={{ fontSize: "1.5rem", color: "white", fontWeight: "500" }}
+          >
+            Project:
+          </span>{" "}
+          <span style={{ textTransform: "capitalize" }}>
+            {currentProject[0].name}
+          </span>
         </Typography>
-      </Typography>
+      </div>
       <div style={{ position: "relative" }}>
         <Grid
           container
@@ -97,7 +116,11 @@ const ViewProject = () => {
         >
           <Grid item xs={12} md={6} lg={4}>
             <div style={{ backgroundColor: "white" }}></div>
-            <TeamTable members={members} currentProject={currentProject} />
+            <TeamTable
+              setOpenMemberModal={setOpenMemberModal}
+              members={members}
+              currentProject={currentProject}
+            />
           </Grid>
           <Grid item xs={12} md={6} lg={7}>
             <div style={{ backgroundColor: "white" }}></div>
@@ -130,6 +153,13 @@ const ViewProject = () => {
           setUpdate={setUpdate}
           currentProject={currentProject}
           setOpenModal={setOpenModal}
+        />
+      ) : null}
+      {openMemberModal === true ? (
+        <AddMemberModal
+          setUpdate={setUpdate}
+          currentProject={currentProject}
+          setOpenMemberModal={setOpenMemberModal}
         />
       ) : null}
     </div>

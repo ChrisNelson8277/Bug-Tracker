@@ -7,6 +7,8 @@ import Projects from "../Components/dashboard/Projects";
 import AddProject from "../Components/Modals/AddProject";
 import { Navigate } from "react-router-dom";
 import { setProjects } from "../Slices/projectSlice";
+import { getUser } from "../Slices/userSlice";
+
 import logo from "../images/bug-tracker.png";
 
 const DashboardHome = () => {
@@ -14,7 +16,27 @@ const DashboardHome = () => {
   const [update, setUpdate] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const { auth } = useSelector((state) => state);
+  const test = useSelector((state) => state);
+
   const dispatch = useDispatch();
+  const fetchUsers = () => {
+    fetch("http://localhost:5000/get/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        dispatch(getUser(data));
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  };
   useEffect(() => {
     fetch("http://localhost:5000/get/allprojects", {
       method: "GET",
@@ -33,6 +55,7 @@ const DashboardHome = () => {
         dispatch(setProjects(project));
         setTimeout(() => {
           setIsLoading(false);
+          fetchUsers();
         }, 100);
       })
       .catch((e) => {

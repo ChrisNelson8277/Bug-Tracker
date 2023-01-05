@@ -12,12 +12,12 @@ const TicketInformation = (props) => {
   const { auth } = useSelector((state) => state);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-  useEffect(() => {
-    scrollToBottom();
-  }, [props.comments]);
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [props.comments]);
   const handleAddComment = () => {
     let newComment = {
       id: props.currentTicket.ticket_id,
@@ -154,7 +154,6 @@ const TicketInformation = (props) => {
                     style={{
                       fontSize: "1.2rem",
                       fontWeight: "800",
-                      color: "#9370DB",
                     }}
                   >
                     {props.currentTicket.title}
@@ -171,7 +170,9 @@ const TicketInformation = (props) => {
                 <div style={{ display: "flex", padding: "0 1rem" }}>
                   <button
                     style={{
-                      backgroundColor: "#9370DB",
+                      backgroundColor: "rgb(25, 118, 210)",
+                      textTransform: "capitalize",
+                      fontSize: "1.1rem",
                       width: "auto",
                       color: "white",
                       border: "none",
@@ -216,7 +217,9 @@ const TicketInformation = (props) => {
                 <div style={{ display: "flex", padding: "0 1rem" }}>
                   <button
                     style={{
-                      backgroundColor: "#9370DB",
+                      backgroundColor: "rgb(25, 118, 210)",
+                      textTransform: "capitalize",
+                      fontSize: "1.1rem",
                       width: "auto",
                       color: "white",
                       border: "none",
@@ -260,7 +263,9 @@ const TicketInformation = (props) => {
                 <div style={{ display: "flex", padding: "0 1rem" }}>
                   <button
                     style={{
-                      backgroundColor: "#9370DB",
+                      backgroundColor: "rgb(25, 118, 210)",
+                      textTransform: "capitalize",
+                      fontSize: "1.1rem",
                       width: "auto",
                       color: "white",
                       border: "none",

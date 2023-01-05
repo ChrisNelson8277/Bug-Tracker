@@ -100,11 +100,29 @@ const TicketTable = (props, { update }) => {
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{ fontSize: "1rem", fontWeight: "500" }}
+                  component="th"
+                  scope="row"
+                >
                   {row.title}
                 </TableCell>
-                <TableCell align="left">{row.description}</TableCell>
-                <TableCell align="left">{row.author}</TableCell>
+                <TableCell
+                  style={{ fontSize: "1rem", fontWeight: "500" }}
+                  align="left"
+                >
+                  {row.description}
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                    textTransform: "capitalize",
+                  }}
+                  align="left"
+                >
+                  {row.author}
+                </TableCell>
                 <TableCell align="left">
                   <MoreVertIcon />
                 </TableCell>

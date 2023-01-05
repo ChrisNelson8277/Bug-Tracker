@@ -34,7 +34,14 @@ const TeamTable = (props) => {
         }}
       >
         <Typography variant="h5">Members</Typography>
-        <Button variant="contained">Add Member</Button>
+        <Button
+          onClick={() => {
+            props.setOpenMemberModal(true);
+          }}
+          variant="contained"
+        >
+          Add Member
+        </Button>
       </div>
       <Table aria-label="simple table">
         <TableHead>

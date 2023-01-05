@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   name: "user",
-  initialState: [],
+  initialState: {
+    allUsers: [],
+  },
   reducers: {
-    getUser: (state) => {
-      state.push({ name: "Chris Nelson" });
-      state.push({ name: "Chris Son" });
+    getUser: (state, action) => {
+      state.allUsers = action.payload;
     },
   },
 });
