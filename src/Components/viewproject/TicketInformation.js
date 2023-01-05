@@ -138,34 +138,36 @@ const TicketInformation = (props) => {
           >
             <Grid container style={{ borderBottom: "1px solid lightgray" }}>
               <Grid xs={3} p="0.3rem">
-                <Typography
-                  align="left"
-                  variant="h5"
-                  p="0.3rem 1rem"
-                  style={{ fontSize: "0.8rem", color: "gray" }}
-                >
-                  Ticket Title
-                </Typography>
-                <Typography
-                  align="left"
-                  variant="h4"
-                  p="0.5rem 1rem"
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: "800",
-                    color: "#9370DB",
-                  }}
-                >
-                  {props.currentTicket.title}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="left"
-                  p="1rem"
-                  style={{ fontSize: "0.8rem" }}
-                >
-                  Status
-                </Typography>
+                <div>
+                  <Typography
+                    align="left"
+                    variant="h5"
+                    p="0.3rem 1rem"
+                    style={{ fontSize: "0.8rem", color: "gray" }}
+                  >
+                    Ticket Title
+                  </Typography>
+                  <Typography
+                    align="left"
+                    variant="h4"
+                    p="0.5rem 1rem"
+                    style={{
+                      fontSize: "1.2rem",
+                      fontWeight: "800",
+                      color: "#9370DB",
+                    }}
+                  >
+                    {props.currentTicket.title}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    align="left"
+                    p="1rem"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    Status
+                  </Typography>
+                </div>
                 <div style={{ display: "flex", padding: "0 1rem" }}>
                   <button
                     style={{
@@ -272,31 +274,35 @@ const TicketInformation = (props) => {
               </Grid>
             </Grid>
             <Grid xs={12} p="0.3rem 1rem">
-              <Typography
-                variant="h5"
-                p="1rem 0.5rem"
-                align="left"
-                style={{ fontSize: "0.8rem", color: "gray" }}
-              >
-                Assigned Developers
-              </Typography>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography
+                  variant="h5"
+                  p="1rem 0.5rem"
+                  align="left"
+                  style={{ fontSize: "0.8rem", color: "gray" }}
+                >
+                  Assigned Developers
+                </Typography>
+              </div>
               <div>
-                {assignedDevs
-                  ? assignedDevs.map((row, index) => {
-                      return (
-                        <div
-                          key={index}
-                          style={{
-                            textAlign: "left",
-                            padding: "1rem 0.5rem",
-                            fontWeight: "800",
-                          }}
-                        >
-                          {row.name}
-                        </div>
-                      );
-                    })
-                  : null}
+                <div
+                  style={{
+                    textAlign: "left",
+                    padding: "1rem 0.5rem",
+                    fontWeight: "800",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {assignedDevs
+                    ? assignedDevs.map((row, index) => {
+                        return assignedDevs.length != index + 1 ? (
+                          <>{row.name + ", "}</>
+                        ) : (
+                          <>{row.name}</>
+                        );
+                      })
+                    : null}
+                </div>
               </div>
             </Grid>
           </Grid>

@@ -15,6 +15,7 @@ import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { setTickets } from "../Slices/ticketSlice";
 import ReactTimeAgo from "react-time-ago";
+import logo from "../images/bug-tracker.png";
 
 const Tickets = () => {
   const dispatch = useDispatch();
@@ -106,18 +107,24 @@ const Tickets = () => {
         position: "relative",
       }}
     >
-      <Typography
-        align="left"
-        variant="h5"
+      <div
         style={{
-          backgroundColor: "#1e81b0",
+          backgroundColor: "#1976d2",
           padding: "1rem",
-          height: "10rem",
-          width: "100%",
+          position: "relative",
+          display: "flex",
         }}
       >
-        Dashboard
-      </Typography>
+        <img
+          style={{
+            width: "100%",
+            maxWidth: "400px",
+            height: "auto",
+            marginBottom: "3vh",
+          }}
+          src={logo}
+        ></img>
+      </div>
       <div
         style={{
           margin: "0 auto",

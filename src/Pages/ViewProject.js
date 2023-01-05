@@ -95,11 +95,11 @@ const ViewProject = () => {
             justifyContent: "space-between",
           }}
         >
-          <Grid xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4}>
             <div style={{ backgroundColor: "white" }}></div>
             <TeamTable members={members} currentProject={currentProject} />
           </Grid>
-          <Grid xs={12} md={6} lg={7}>
+          <Grid item xs={12} md={6} lg={7}>
             <div style={{ backgroundColor: "white" }}></div>
             <TicketTable
               setComments={setComments}
@@ -113,7 +113,7 @@ const ViewProject = () => {
               currentProject={currentProject}
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <TicketInformation
               members={members}
               update={update}

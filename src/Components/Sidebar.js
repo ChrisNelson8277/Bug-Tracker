@@ -51,9 +51,15 @@ const Sidebar = (props) => {
         anchor="left"
       >
         <Toolbar
-          style={{ backgroundColor: "lightblue", textTransform: "capitalize" }}
+          style={{
+            backgroundColor: "#1976d2",
+            color: "white",
+            textTransform: "capitalize",
+          }}
         >
           Welcome! {auth.name ? <>{auth.name.split(" ")[0]}</> : "Welcome user"}
+          <br />
+          {auth.role ? <>Role: {auth.role}</> : "N/A"}
         </Toolbar>
         <Divider />
         <List>

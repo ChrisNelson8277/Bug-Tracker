@@ -13,6 +13,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditUser from "../Components/Modals/EditUser";
+import logo from "../images/bug-tracker.png";
 
 import { useSelector } from "react-redux";
 
@@ -22,7 +24,9 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [openModal, setOpenModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const [forceUpdate, setForceUpdate] = useState();
   useEffect(() => {
     fetch("http://localhost:5000/get/users", {
       method: "GET",
@@ -41,7 +45,7 @@ const ManageUsers = () => {
       .catch((e) => {
         console.error(e.error);
       });
-  }, []);
+  }, [forceUpdate]);
   console.log(users);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - 2) : 0;
 
@@ -66,18 +70,24 @@ const ManageUsers = () => {
         position: "relative",
       }}
     >
-      <Typography
-        align="left"
-        variant="h5"
+      <div
         style={{
-          backgroundColor: "#1e81b0",
+          backgroundColor: "#1976d2",
           padding: "1rem",
-          height: "10rem",
-          width: "100%",
+          position: "relative",
+          display: "flex",
         }}
       >
-        BugTracker
-      </Typography>
+        <img
+          style={{
+            width: "100%",
+            maxWidth: "400px",
+            height: "auto",
+            marginBottom: "3vh",
+          }}
+          src={logo}
+        ></img>
+      </div>
       <div
         style={{
           margin: "0 auto",
@@ -162,6 +172,10 @@ const ManageUsers = () => {
                   <TableCell align="center">{row.email}</TableCell>
                   <TableCell align="left">
                     <Button
+                      onClick={() => {
+                        setOpenModal(true);
+                        setCurrentUser(row);
+                      }}
                       //   style={{ backgroundColor: "red" }}
                       variant="contained"
                     >
@@ -187,6 +201,17 @@ const ManageUsers = () => {
           </Table>
         </TableContainer>
       </div>
+      {openModal === true ? (
+        <EditUser
+          //   members={props.members}
+          //   currentTicket={props.currentTicket}
+          setOpenModal={setOpenModal}
+          user={currentUser}
+          isLoading={setIsLoading}
+          setForceUpdate={setForceUpdate}
+          //   setUpdate={props.setUpdate}
+        ></EditUser>
+      ) : null}
     </div>
   );
 };

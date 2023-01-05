@@ -7,6 +7,7 @@ import Projects from "../Components/dashboard/Projects";
 import AddProject from "../Components/Modals/AddProject";
 import { Navigate } from "react-router-dom";
 import { setProjects } from "../Slices/projectSlice";
+import logo from "../images/bug-tracker.png";
 
 const DashboardHome = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -47,18 +48,24 @@ const DashboardHome = () => {
 
   return (
     <div style={{ height: "100vh", backgroundColor: "lightgray" }}>
-      <Typography
-        align="left"
-        variant="h5"
+      <div
         style={{
-          backgroundColor: "#1e81b0",
+          backgroundColor: "#1976d2",
           padding: "1rem",
-          height: "10rem",
           position: "relative",
+          display: "flex",
         }}
       >
-        Dashboard
-      </Typography>
+        <img
+          style={{
+            width: "100%",
+            maxWidth: "400px",
+            height: "auto",
+            marginBottom: "3vh",
+          }}
+          src={logo}
+        ></img>
+      </div>
       <div style={{ position: "relative", marginBottom: "40vh" }}>
         <Projects openModal={openModal} setOpenModal={setOpenModal} />
       </div>
@@ -105,9 +112,7 @@ const DashboardHome = () => {
           </Typography>
           <PieChart
             style={{ height: "300px" }}
-            label={({ dataEntry }) =>
-              dataEntry.title + " " + dataEntry.value + "%"
-            }
+            label={({ dataEntry }) => dataEntry.title + " "}
             labelStyle={(index) => ({
               fill: "black",
               fontSize: "7px",
