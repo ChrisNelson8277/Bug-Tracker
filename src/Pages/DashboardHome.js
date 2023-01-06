@@ -37,6 +37,13 @@ const DashboardHome = () => {
         console.error(e.error);
       });
   };
+  const fakeData = {
+    High: 33,
+    medium: 15,
+    low: 10,
+  };
+
+  console.log(33 / (fakeData.low + fakeData.medium + fakeData.High));
   useEffect(() => {
     fetch("http://localhost:5000/get/allprojects", {
       method: "GET",
@@ -105,23 +112,44 @@ const DashboardHome = () => {
           <Typography variant="h5" align="left" p="1rem">
             Tickets by type
           </Typography>
-          <PieChart
-            style={{ height: "300px" }}
-            label={({ dataEntry }) =>
-              dataEntry.title + " " + dataEntry.value + "%"
-            }
-            labelStyle={(index) => ({
-              fill: "black",
-              fontSize: "7px",
-              fontFamily: "sans-serif",
-            })}
-            labelPosition={50}
-            data={[
-              { title: "High", label: "test", value: 1, color: "#FF0000" },
-              { title: "Med", value: 2, color: "#FFA500" },
-              { title: "low", value: 3, color: "#FFFF00" },
-            ]}
-          />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <PieChart
+              style={{ height: "250px" }}
+              label={({ dataEntry }) => dataEntry.value.toFixed(1) + "%"}
+              labelStyle={(index) => ({
+                fill: "black",
+                fontSize: "7px",
+                fontFamily: "sans-serif",
+              })}
+              labelPosition={70}
+              data={[
+                {
+                  title: "High",
+                  value:
+                    (fakeData.High /
+                      (fakeData.low + fakeData.medium + fakeData.High)) *
+                    100,
+                  color: "#FF0000",
+                },
+                {
+                  title: "Med",
+                  value:
+                    (fakeData.medium /
+                      (fakeData.low + fakeData.medium + fakeData.High)) *
+                    100,
+                  color: "#FFA500",
+                },
+                {
+                  title: "Low",
+                  value:
+                    (fakeData.low /
+                      (fakeData.low + fakeData.medium + fakeData.High)) *
+                    100,
+                  color: "#FFFF00",
+                },
+              ]}
+            />
+          </div>
         </Grid>
         <Grid
           item
@@ -135,7 +163,7 @@ const DashboardHome = () => {
           </Typography>
           <PieChart
             style={{ height: "300px" }}
-            label={({ dataEntry }) => dataEntry.title + " "}
+            label={({ dataEntry }) => dataEntry.title + "% "}
             labelStyle={(index) => ({
               fill: "black",
               fontSize: "7px",
@@ -166,9 +194,14 @@ const DashboardHome = () => {
               })}
               labelPosition={60}
               data={[
-                { title: "High", label: "test", value: 10, color: "#FF0000" },
-                { title: "Med", value: 15, color: "#FFA500" },
-                { title: "low", value: 20, color: "#FFFF00" },
+                {
+                  title: "High",
+                  label: "test",
+                  value: fakeData.High,
+                  color: "#FF0000",
+                },
+                { title: "Med", value: fakeData.High, color: "#FFA500" },
+                { title: "low", value: fakeData.High, color: "#FFFF00" },
               ]}
             />
           </div>
