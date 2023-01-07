@@ -10,6 +10,7 @@ import { setProjects } from "../Slices/projectSlice";
 import { getUser } from "../Slices/userSlice";
 
 import logo from "../images/bug-tracker.png";
+import { textAlign } from "@mui/system";
 
 const DashboardHome = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -42,8 +43,6 @@ const DashboardHome = () => {
     medium: 15,
     low: 10,
   };
-
-  console.log(33 / (fakeData.low + fakeData.medium + fakeData.High));
   useEffect(() => {
     fetch("http://localhost:5000/get/allprojects", {
       method: "GET",
@@ -112,7 +111,13 @@ const DashboardHome = () => {
           <Typography variant="h5" align="left" p="1rem">
             Tickets by type
           </Typography>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "2rem",
+            }}
+          >
             <PieChart
               style={{ height: "250px" }}
               label={({ dataEntry }) => dataEntry.value.toFixed(1) + "%"}
@@ -149,6 +154,26 @@ const DashboardHome = () => {
                 },
               ]}
             />
+            <div className="pie-list" style={{ margin: "auto 0" }}>
+              <ul style={{ textAlign: "center" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <li style={{ textAlign: "center" }}>low</li>
+                </div>
+                <li>
+                  <p style={{ fontSize: "1rem", color: "black" }}>Med</p>
+                </li>
+                <li>
+                  <p style={{ fontSize: "1rem", color: "black" }}>High</p>
+                </li>
+              </ul>
+            </div>
           </div>
         </Grid>
         <Grid
