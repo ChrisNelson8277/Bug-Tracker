@@ -90,7 +90,7 @@ const LoginComponent = () => {
             <Box
               sx={{
                 bgcolor: "white",
-                boxShadow: "1px 1px 8px gray",
+                boxShadow: "1px 1px 7px gray",
                 borderRadius: "10px",
                 padding: "0rem 1rem",
                 marginTop: 8,
