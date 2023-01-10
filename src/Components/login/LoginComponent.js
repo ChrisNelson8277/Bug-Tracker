@@ -71,6 +71,39 @@ const LoginComponent = () => {
         console.error(e.error);
       });
   };
+  const handleDemo = (event) => {
+    event.preventDefault();
+    const information = {
+      user: "demo",
+      password: "no password needed",
+    };
+    fetch("http://localhost:5000/login/demo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        information,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        if (data.code === 200) {
+          const newData = {
+            role: data.role,
+            name: data.name,
+          };
+          dispatch(signIn(newData));
+          navigate("/home");
+        }
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -144,6 +177,14 @@ const LoginComponent = () => {
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Sign In
+                </Button>
+                <Button
+                  onClick={handleDemo}
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 0, mb: 2, bgcolor: "orange" }}
+                >
+                  DEMO SIGN IN
                 </Button>
                 <Grid container>
                   <Grid item xs>
