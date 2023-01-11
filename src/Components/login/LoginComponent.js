@@ -75,7 +75,7 @@ const LoginComponent = () => {
     event.preventDefault();
     const information = {
       user: "demo",
-      password: "no password needed",
+      password: "no password",
     };
     fetch("http://localhost:5000/login/demo", {
       method: "POST",
