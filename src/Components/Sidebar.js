@@ -124,9 +124,9 @@ const Sidebar = (props) => {
                 logout();
               }}
             >
-              <ListItemButton>
+              <ListItemButton style={{ color: "red" }}>
                 <ListItemIcon>
-                  <LogoutIcon />
+                  <LogoutIcon style={{ color: "red" }} />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
