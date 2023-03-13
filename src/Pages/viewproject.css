@@ -6,11 +6,20 @@
     background-color: rgb(25, 118, 210);
     cursor: pointer;
 }
-.pie-list ul{
+/* .pie-list ul{
     display: flex;
     align-items: center;
     flex-direction: column;
 }
-.pie-list li::marker{
-    font-size: 3rem;
+*/
+.pie-list{
+    font-size: 1.2rem;
 }
+.pie-list li{
+    font-weight: 800;
+    display:"inline-block";
+}
+.pie-list li::marker{
+    color:black;
+
+} 

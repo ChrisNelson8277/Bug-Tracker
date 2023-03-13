@@ -49,8 +49,9 @@ const AddTicket = (props) => {
       .then((data) => {
         if (data.code === 200) {
           props.setOpenModal(false);
+          props.setUpdate(Math.random());
         }
-        // props.setUpdate(Math.random());
+        //
         // props.setOpenModal(false);
       })
       .catch((e) => {

@@ -28,6 +28,7 @@ const EditTicket = (props) => {
       setStatus(props.currentTicket.status);
     };
   }, [update]);
+  console.log(props.currentTicket);
   function submitAddProject() {
     const information = {
       title: name,
@@ -54,7 +55,14 @@ const EditTicket = (props) => {
       })
       .then((data) => {
         if (data.code === 200) {
+          const newAssigned = JSON.stringify(assigned);
           props.setUpdate(Math.random());
+          props.currentTicket.title = name;
+          props.currentTicket.description = description;
+          props.currentTicket.priority = priority;
+          props.currentTicket.status = status;
+          props.currentTicket.type = type;
+          props.currentTicket.assignedmembers = newAssigned;
           props.setOpenModal(false);
         }
         // props.setUpdate(Math.random());

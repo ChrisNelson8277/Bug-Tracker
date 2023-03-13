@@ -12,12 +12,12 @@ const TicketInformation = (props) => {
   const { auth } = useSelector((state) => state);
   const messagesEndRef = useRef(null);
 
-  // const scrollToBottom = () => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  // };
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [props.comments]);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [props.comments]);
   const handleAddComment = () => {
     let newComment = {
       id: props.currentTicket.ticket_id,
@@ -330,7 +330,7 @@ const TicketInformation = (props) => {
             >
               Comments
             </Typography>
-            <div className="comment-container">
+            <div className="comment-container" id="comment-container">
               {props.comments
                 ? props.comments.map((row) => (
                     <div
