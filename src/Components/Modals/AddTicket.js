@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
 import TransferTicket from "../viewproject/TicketTransfer";
+import { toast } from "react-toastify";
 
 const AddTicket = (props) => {
   const [description, setDescription] = useState("");
@@ -17,11 +18,29 @@ const AddTicket = (props) => {
   const [name, setName] = useState("");
   const [update, setUpdate] = useState();
   const [assigned, setAssigned] = useState();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const { auth } = useSelector((state) => state);
+
   function closeModal() {
     props.setOpenModal(false);
   }
   function submitAddProject() {
+    if (auth.name === "Demo_Admin") {
+      toast.error("Demo Users do not have permission");
+      return;
+    }
+    if (
+      name === "" ||
+      description === "" ||
+      type === "" ||
+      priority === "" ||
+      status === ""
+    ) {
+      console.log(type, priority, status);
+      toast.error("Please Fill Out All Fields!");
+      return;
+    }
     const information = {
       title: name,
       author: auth.name,
@@ -207,6 +226,19 @@ const AddTicket = (props) => {
               </Select>
             </FormControl>
           </div>
+          {error ? (
+            <div
+              style={{
+                width: "100%",
+                color: "red",
+                marginTop: "1vh",
+                textAlign: "center",
+                fontWeight: "600",
+              }}
+            >
+              {errorMessage}
+            </div>
+          ) : null}
           <div
             style={{
               width: "100%",
@@ -214,7 +246,7 @@ const AddTicket = (props) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: "3vh",
+              marginTop: "1vh",
             }}
           >
             <Button

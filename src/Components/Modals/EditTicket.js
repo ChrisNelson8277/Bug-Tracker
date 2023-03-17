@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
 import TransferTicket from "../viewproject/TicketTransfer";
 import EditTransfer from "../viewproject/EditTransfer";
+import { toast } from "react-toastify";
 
 const EditTicket = (props) => {
   const [description, setDescription] = useState("");
@@ -19,6 +20,8 @@ const EditTicket = (props) => {
   const [update, setUpdate] = useState();
   const [assigned, setAssigned] = useState();
   const { auth } = useSelector((state) => state);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
     return () => {
       setName(props.currentTicket.title);
@@ -30,6 +33,11 @@ const EditTicket = (props) => {
   }, [update]);
   console.log(props.currentTicket);
   function submitAddProject() {
+    if (auth.name === "Demo_Admin") {
+      setError(true);
+      setErrorMessage("Demo Users do not have permission!");
+      return;
+    }
     const information = {
       title: name,
       description: description,
@@ -63,6 +71,10 @@ const EditTicket = (props) => {
           props.currentTicket.status = status;
           props.currentTicket.type = type;
           props.currentTicket.assignedmembers = newAssigned;
+          toast.success("Successfully Updated Ticket!", {
+            pauseOnHover: true,
+            closeOnClick: true,
+          });
           props.setOpenModal(false);
         }
         // props.setUpdate(Math.random());
@@ -78,7 +90,7 @@ const EditTicket = (props) => {
   }
   const Info_Style = {
     position: "fixed",
-    top: "10%",
+    top: "25%",
     left: "50%",
     transform: "translate(-25%, -5%)",
     backgroundColor: "#FFF",
@@ -102,6 +114,7 @@ const EditTicket = (props) => {
     alignItems: "center",
     justifyContent: "space-between",
     height: "100%",
+    fontFamily: "'Oswald', sans-serif",
   };
   const handleChangeStatus = (event) => {
     setStatus(event.target.value);
@@ -227,6 +240,19 @@ const EditTicket = (props) => {
               </Select>
             </FormControl>
           </div>
+          {error ? (
+            <div
+              style={{
+                width: "100%",
+                color: "red",
+                marginTop: "1vh",
+                textAlign: "center",
+                fontWeight: "600",
+              }}
+            >
+              {errorMessage}
+            </div>
+          ) : null}
           <div
             style={{
               width: "100%",
@@ -234,7 +260,7 @@ const EditTicket = (props) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: "3vh",
+              marginTop: "5vh",
             }}
           >
             <Button

@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 import { setProjects } from "../Slices/projectSlice";
 import { getUser } from "../Slices/userSlice";
 import { setUserTickets } from "../Slices/ticketSlice";
+import "./DashboardHome.css";
 
 import logo from "../images/bug-tracker.png";
 import { textAlign } from "@mui/system";
@@ -44,6 +45,22 @@ const DashboardHome = () => {
 
   const fetchTickets = () => {
     const author = auth.name;
+    if (auth.role == "admin") {
+      fetch("http://localhost:5000/get/adminTickets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          return res.json().then((json) => Promise.reject(json));
+        })
+        .then((data) => {
+          dispatch(setUserTickets(data.results));
+          sortTickets(data.results);
+        });
+    }
     fetch("http://localhost:5000/get/userTickets", {
       method: "POST",
       headers: {
@@ -58,7 +75,6 @@ const DashboardHome = () => {
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
-        console.log(data.results);
         dispatch(setUserTickets(data.results));
         sortTickets(data.results);
       });
@@ -90,6 +106,7 @@ const DashboardHome = () => {
           feature: feature,
           other: other,
           bug: bug,
+          length: ticketss.length,
         };
         setTicketData(data);
         setTimeout(() => {
@@ -111,14 +128,14 @@ const DashboardHome = () => {
       if (ticketss[i].status === "Open") {
         open = open + 1;
       }
-      if (ticketss[i].status === "resolved") {
+      if (ticketss[i].status === "Resolved") {
         resolved = resolved + 1;
       }
-      if (ticketss[i].status === "new") {
+      if (ticketss[i].status === "New") {
         newTick = newTick + 1;
       }
-      if (ticketss[i].status === "inProgress") {
-        newTick = newTick + 1;
+      if (ticketss[i].status === "In Progress") {
+        inProgress = inProgress + 1;
       }
       if (ticketss[i].priority === "low") {
         low = low + 1;
@@ -130,11 +147,6 @@ const DashboardHome = () => {
         high = high + 1;
       }
     }
-  };
-  const fakeData = {
-    High: 33,
-    medium: 15,
-    low: 10,
   };
   useEffect(() => {
     fetch("http://localhost:5000/get/allprojects", {
@@ -186,16 +198,32 @@ const DashboardHome = () => {
           src={logo}
         ></img>
       </div>
-      <div style={{ position: "relative", marginBottom: "40vh" }}>
+      <div
+        style={{
+          position: "relative",
+          marginBottom: "35vh",
+        }}
+      >
         <Projects openModal={openModal} setOpenModal={setOpenModal} />
       </div>
-      <div style={{}}>
+      <div
+        style={{
+          backgroundColor: "white",
+          width: "80%",
+          margin: "auto",
+          padding: "1rem",
+          borderRadius: "10px",
+        }}
+      >
+        <Typography variant="h5" style={{ marginBottom: "3vh" }}>
+          Total Tickets: {ticketData.length}
+        </Typography>
         <Grid
           container
           columnSpacing={0}
           style={{
             justifyContent: "space-between",
-            width: "80%",
+            width: "100%",
             margin: "0 auto",
           }}
         >
@@ -213,10 +241,10 @@ const DashboardHome = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
+                padding: "0 0.5rem ",
                 marginBottom: "2rem",
               }}
             >
-              <div></div>
               <PieChart
                 style={{ height: "250px" }}
                 label={({ dataEntry }) => dataEntry.value.toFixed(1) + "%"}
@@ -224,6 +252,7 @@ const DashboardHome = () => {
                   fill: "black",
                   fontSize: "7px",
                   fontFamily: "sans-serif",
+                  fontWeight: "600",
                 })}
                 labelPosition={70}
                 data={[
@@ -233,7 +262,7 @@ const DashboardHome = () => {
                       (ticketData.low /
                         (ticketData.low + ticketData.med + ticketData.high)) *
                       100,
-                    color: "#FF0000",
+                    color: "#FFFF00",
                   },
                   {
                     title: "Med",
@@ -249,7 +278,8 @@ const DashboardHome = () => {
                       (ticketData.high /
                         (ticketData.low + ticketData.med + ticketData.high)) *
                       100,
-                    color: "#FFFF00",
+
+                    color: "#FF0000",
                   },
                 ]}
               />
@@ -270,15 +300,24 @@ const DashboardHome = () => {
                     }}
                   >
                     <li
+                      className="low"
                       style={{
-                        color: "#FFFF00",
-                        padding: "0",
+                        fontSize: "1.5rem",
                       }}
                     >
                       low
                     </li>
-                    <li style={{ color: "#FFA500" }}>Med</li>
-                    <li style={{ color: "#FF0000" }}>High</li>
+                    <li
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                      className="med"
+                    >
+                      Med
+                    </li>
+                    <li className="high" style={{ fontSize: "1.5rem" }}>
+                      High
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -315,32 +354,44 @@ const DashboardHome = () => {
                   {
                     title: "Issue",
                     value:
-                      (fakeData.High /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.issue /
+                        (ticketData.issue +
+                          ticketData.bug +
+                          ticketData.feature +
+                          ticketData.other)) *
                       100,
                     color: "#072F5F",
                   },
                   {
                     title: "Bug",
                     value:
-                      (fakeData.medium /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.bug /
+                        (ticketData.issue +
+                          ticketData.bug +
+                          ticketData.feature +
+                          ticketData.other)) *
                       100,
                     color: "#1261A0",
                   },
                   {
                     title: "Feature",
                     value:
-                      (fakeData.low /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.feature /
+                        (ticketData.issue +
+                          ticketData.bug +
+                          ticketData.feature +
+                          ticketData.other)) *
                       100,
                     color: "#3895D3",
                   },
                   {
                     title: "Other",
                     value:
-                      (fakeData.low /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.other /
+                        (ticketData.issue +
+                          ticketData.bug +
+                          ticketData.feature +
+                          ticketData.other)) *
                       100,
                     color: "#58CCED",
                   },
@@ -363,16 +414,37 @@ const DashboardHome = () => {
                     }}
                   >
                     <li
+                      className="issue"
                       style={{
-                        color: "#072F5F",
-                        padding: "0",
+                        fontSize: "1.5rem",
                       }}
                     >
                       Issue
                     </li>
-                    <li style={{ color: "#1261A0" }}>Bug</li>
-                    <li style={{ color: "#3895D3" }}>Feature Req</li>
-                    <li style={{ color: "#58CCED" }}>Other</li>
+                    <li
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                      className="bug"
+                    >
+                      Bug
+                    </li>
+                    <li
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                      className="feat"
+                    >
+                      Feature
+                    </li>
+                    <li
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                      className="other"
+                    >
+                      Other
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -392,6 +464,7 @@ const DashboardHome = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
+                padding: "0 0.5rem ",
               }}
             >
               <PieChart
@@ -401,38 +474,51 @@ const DashboardHome = () => {
                   fill: "black",
                   fontSize: "7px",
                   fontFamily: "sans-serif",
+                  fontWeight: "600",
                 })}
                 labelPosition={70}
                 data={[
                   {
                     title: "New",
                     value:
-                      (fakeData.High /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.new /
+                        (ticketData.open +
+                          ticketData.inProgress +
+                          ticketData.new +
+                          ticketData.resolved)) *
                       100,
                     color: "#ADFF00",
                   },
                   {
                     title: "Open",
                     value:
-                      (fakeData.medium /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.open /
+                        (ticketData.open +
+                          ticketData.inProgress +
+                          ticketData.new +
+                          ticketData.resolved)) *
                       100,
                     color: "#74D600",
                   },
                   {
                     title: "In Progress",
                     value:
-                      (fakeData.low /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.inProgress /
+                        (ticketData.open +
+                          ticketData.inProgress +
+                          ticketData.new +
+                          ticketData.resolved)) *
                       100,
                     color: "#00D27F",
                   },
                   {
                     title: "Resolved",
                     value:
-                      (fakeData.low /
-                        (fakeData.low + fakeData.medium + fakeData.High)) *
+                      (ticketData.resolved /
+                        (ticketData.open +
+                          ticketData.inProgress +
+                          ticketData.new +
+                          ticketData.resolved)) *
                       100,
                     color: "#00FF83",
                   },
@@ -455,18 +541,37 @@ const DashboardHome = () => {
                     }}
                   >
                     <li
+                      className="new"
                       style={{
-                        color: "#ADFF00",
-                        padding: "0",
+                        fontSize: "1.5rem",
                       }}
                     >
                       New
                     </li>
-                    <li style={{ color: "#74D600" }}>Open</li>
-                    <li style={{ color: "#00D27F", fontSize: "1rem" }}>
+                    <li
+                      className="open"
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      Open
+                    </li>
+                    <li
+                      className="progress"
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                    >
                       In Progress
                     </li>
-                    <li style={{ color: "#00FF83" }}>Resolved</li>
+                    <li
+                      className="resolved"
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      Resolved
+                    </li>
                   </ul>
                 </div>
               </div>

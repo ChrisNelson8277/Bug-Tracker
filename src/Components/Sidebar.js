@@ -32,7 +32,7 @@ const Sidebar = (props) => {
     localStorage.removeItem("user");
   };
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", fontFamily: "'Oswald', sans-serif" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -57,7 +57,7 @@ const Sidebar = (props) => {
             textTransform: "capitalize",
           }}
         >
-          Welcome! {auth.name ? <>{auth.name.split(" ")[0]}</> : "Welcome user"}
+          Welcome! {auth.name ? <>{auth.name.split(" ")[0]}</> : "User"}
           <br />
           {auth.role ? <>Role: {auth.role}</> : "N/A"}
         </Toolbar>
@@ -71,6 +71,7 @@ const Sidebar = (props) => {
           ]} */}
           <ListItem disablePadding>
             <ListItemButton
+              style={{ fontFamily: "'Oswald', sans-serif" }}
               onClick={() => {
                 navigate("/home");
               }}
@@ -90,16 +91,18 @@ const Sidebar = (props) => {
             </ListItemButton>
           </ListItem> */}
           <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => {
-                navigate("/manage-users");
-              }}
-            >
-              <ListItemIcon>
-                <PeopleIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Manage Users"} />
-            </ListItemButton>
+            {auth.role === "admin" ? (
+              <ListItemButton
+                onClick={() => {
+                  navigate("/manage-users");
+                }}
+              >
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Manage Users"} />
+              </ListItemButton>
+            ) : null}
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton

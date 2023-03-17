@@ -89,7 +89,12 @@ export default function EditTransfer(props) {
   };
 
   const customList = (title, items) => (
-    <Card style={{ marginBottom: "2rem" }}>
+    <Card
+      style={{
+        marginBottom: "2rem",
+        fontFamily: "'Oswald', sans-serif",
+      }}
+    >
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={

@@ -15,11 +15,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./Project.css";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentProject } from "../../Slices/projectSlice";
 import { useNavigate } from "react-router";
-
 const Projects = (props) => {
+  const { auth } = useSelector((state) => state);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { projects } = useSelector((state) => state);
@@ -80,33 +81,46 @@ const Projects = (props) => {
         right: "0",
         margin: "0 auto",
         padding: "1rem 0rem",
+        fontFamily: "'Oswald', sans-serif",
       }}
     >
       <TableContainer component={Paper}>
         <div
           style={{
-            padding: "1rem 3rem",
+            padding: "1rem 5rem",
             display: "flex",
             justifyContent: "space-between",
           }}
         >
           <Typography variant="h5">Projects</Typography>
-          <Button
-            variant="contained"
-            onClick={() => {
-              editProject();
-            }}
-          >
-            New Project
-          </Button>
+          {auth.role === "admin" ? (
+            <Button
+              variant="contained"
+              onClick={() => {
+                editProject();
+              }}
+            >
+              New Project
+            </Button>
+          ) : null}
         </div>
-        <Table sx={{ minWidth: "100%" }} aria-label="simple table">
+        <Table
+          sx={{
+            minWidth: "100%",
+            fontSize: "1.2rem",
+          }}
+          aria-label="table"
+        >
           <TableHead>
-            <TableRow>
-              <TableCell>Project</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell align="right">Contributors</TableCell>
-              <TableCell></TableCell>
+            <TableRow style={{ backgroundColor: "lightgray" }}>
+              <TableCell sx={{ fontSize: "1.2rem" }}>Project</TableCell>
+              <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
+                Description
+              </TableCell>
+              <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
+                Contributors
+              </TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -131,20 +145,37 @@ const Projects = (props) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
-                  style={{ fontWeight: "900", fontSize: "1.1rem" }}
+                  style={{
+                    fontWeight: "900",
+                    fontSize: "1.1rem",
+                    textTransform: "capitalize",
+                  }}
                   component="th"
                   scope="row"
                 >
                   {row.name}
                 </TableCell>
-                <TableCell>{row.description}</TableCell>
-                <TableCell align="right">
+                <TableCell
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "1.1rem",
+                    textTransform: "capitalize",
+                  }}
+                  align="center"
+                >
+                  {row.description}
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "1.1rem",
+                    textTransform: "capitalize",
+                  }}
+                  align="right"
+                >
                   {handleJson(JSON.parse(row.assignedto))}
                 </TableCell>
                 <TableCell align="right"></TableCell>
-                <TableCell>
-                  <MoreVertIcon className="vert-icon" />
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

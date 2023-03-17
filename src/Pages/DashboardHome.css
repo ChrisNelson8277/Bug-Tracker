@@ -1,0 +1,24 @@
+ul {list-style-type: none; }
+
+.low::before {content: "•"; color: #FFFF00;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.med::before {content: "•"; color: #FFA500;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.high::before {content: "•"; color: #FF0000;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.feat::before {content: "•"; color: #3895D3;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.bug::before {content: "•"; color: #1261A0;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.other::before {content: "•"; color: #58CCED;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.issue::before {content: "•"; color: #072F5F;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.new::before {content: "•"; color: #ADFF00;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.open::before {content: "•"; color: #74D600;display: inline-block; width: 0.5em;
+margin-left: -1.5em; font-size: 2rem;}
+.progress::before {content: "•"; color: #00D27F;display: inline-block; width: 0.5em;
+    margin-left: -1.5em; font-size: 2rem;}
+.resolved::before {content: "•"; color: #00FF83;display: inline-block; width: 0.5em;
+        margin-left: -1.5em; font-size: 2rem;}

@@ -9,6 +9,7 @@ import Select from "@mui/material/Select";
 import { useSelector } from "react-redux";
 import TransferTicket from "../viewproject/TicketTransfer";
 import AddMember from "../viewproject/AddMember";
+import { toast } from "react-toastify";
 
 const AddMemberModal = (props) => {
   const [description, setDescription] = useState("");
@@ -45,7 +46,9 @@ const AddMemberModal = (props) => {
       })
       .then((data) => {
         if (data.code === 200) {
-          props.setOpenModal(false);
+          props.setOpenMemberModal(false);
+          props.setUpdate(Math.random());
+          toast.success("Member(s) added to project");
         }
         // props.setUpdate(Math.random());
         // props.setOpenModal(false);
@@ -60,7 +63,7 @@ const AddMemberModal = (props) => {
   }
   const Info_Style = {
     position: "fixed",
-    top: "10%",
+    top: "25%",
     left: "50%",
     transform: "translate(-25%, -5%)",
     backgroundColor: "#FFF",

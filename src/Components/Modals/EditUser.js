@@ -6,11 +6,16 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import ReactDOM from "react-dom";
 import { Button, TextField, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 const EditUser = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [number, setNumber] = useState("");
+  const { auth } = useSelector((state) => state);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
     return () => {
       setName(props.user.name);
@@ -23,6 +28,10 @@ const EditUser = (props) => {
     setRole(event.target.value);
   };
   const submitButton = () => {
+    if (auth.name === "Demo_Admin") {
+      toast.error("Demo Users do not have that permission");
+      return;
+    }
     let updateUser = {
       name: name,
       role: role,
@@ -43,6 +52,7 @@ const EditUser = (props) => {
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
+        toast.success("User successfully updated!");
         props.setForceUpdate(Math.random());
         props.setOpenModal(false);
       })
@@ -52,7 +62,7 @@ const EditUser = (props) => {
   };
   const Info_Style = {
     position: "fixed",
-    top: "10%",
+    top: "25%",
     left: "50%",
     transform: "translate(-25%, -5%)",
     backgroundColor: "#FFF",
@@ -83,7 +93,7 @@ const EditUser = (props) => {
         <div style={Info_Style}>
           <div style={Container}>
             <Typography variant="h5" p="0" m="0">
-              Edit Ticket
+              Edit User
             </Typography>
             <CloseIcon
               className="exit"
@@ -156,6 +166,19 @@ const EditUser = (props) => {
                 ) : null}
               </Select>
             </FormControl>
+            {error ? (
+              <div
+                style={{
+                  width: "100%",
+                  color: "red",
+                  marginTop: "1vh",
+                  textAlign: "center",
+                  fontWeight: "600",
+                }}
+              >
+                {errorMessage}
+              </div>
+            ) : null}
             <div
               style={{
                 width: "100%",
@@ -163,7 +186,7 @@ const EditUser = (props) => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: "3vh",
+                marginTop: "1vh",
                 paddingBottom: "3vh",
               }}
             >

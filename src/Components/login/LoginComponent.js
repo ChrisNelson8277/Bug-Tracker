@@ -37,6 +37,14 @@ const LoginComponent = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    first;
+
+    return () => {
+      second;
+    };
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,6 +52,7 @@ const LoginComponent = () => {
       user: data.get("email"),
       password: data.get("password"),
     };
+
     fetch("http://localhost:5000/login/", {
       method: "POST",
       headers: {

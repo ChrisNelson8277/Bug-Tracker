@@ -65,6 +65,7 @@ const ViewProject = () => {
       style={{
         backgroundColor: "lightgray",
         minHeight: "125vh",
+        fontFamily: "'Oswald', sans-serif",
       }}
     >
       <div
@@ -104,6 +105,7 @@ const ViewProject = () => {
           spacing={2}
           style={{
             zIndex: "10",
+            display: "flex",
             position: "absolute",
             top: "-5rem",
             width: "100%",
@@ -114,8 +116,7 @@ const ViewProject = () => {
             justifyContent: "space-between",
           }}
         >
-          <Grid item xs={12} md={6} lg={4}>
-            <div style={{ backgroundColor: "white" }}></div>
+          <Grid style={{ flex: "1" }} item xs={12} md={6} lg={4}>
             <TeamTable
               setOpenMemberModal={setOpenMemberModal}
               members={members}

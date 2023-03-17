@@ -2,3 +2,6 @@
     max-height: 20vh;
     overflow: auto;
 }
+*{
+    font-family: 'Oswald', sans-serif;
+  }

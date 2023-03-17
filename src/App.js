@@ -15,6 +15,8 @@ import { signIn } from "./Slices/authSlice";
 import ViewProject from "./Pages/ViewProject";
 import Tickets from "./Pages/Tickets";
 import ManageUsers from "./Pages/ManageUsers";
+import ProtectedRoutes from "./Components/ProtectedRoutes";
+import { createTheme, MuiThemeProvider } from "@material-ui/core";
 function App() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,65 +25,79 @@ function App() {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(signIn(JSON.parse(isLoggedIn)));
+      navigate("/home");
     }
   }, []);
+
+  const THEME = createTheme({
+    typography: {
+      fontFamily: `'Oswald', sans-serif`,
+    },
+  });
+
   return (
-    <div className="App">
-      <Routes>
-        <Route
-          index
-          path="/"
-          element={
-            <>
-              <LoginComponent />
-            </>
-          }
-        ></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route
-          path="/home"
-          element={
-            <>
-              <Sidebar>
-                <DashboardHome />
-              </Sidebar>
-            </>
-          }
-        ></Route>
-        <Route path="/project/view/">
+    <MuiThemeProvider theme={THEME}>
+      <div className="App">
+        <Routes>
           <Route
-            path=":id"
+            index
+            path="/"
             element={
               <>
-                <Sidebar>
-                  <ViewProject />
-                </Sidebar>
+                <LoginComponent />
               </>
             }
-          />
-        </Route>
-        <Route
-          path="/tickets"
-          element={
-            <>
-              <Sidebar>
-                <Tickets />
-              </Sidebar>
-            </>
-          }
-        ></Route>
-        <Route
-          path="/manage-users"
-          element={
-            <>
-              <Sidebar>
-                <ManageUsers />
-              </Sidebar>
-            </>
-          }
-        ></Route>
-      </Routes>
-    </div>
+          ></Route>
+          <Route element={<ProtectedRoutes />}>
+            {" "}
+            <Route
+              path="/home"
+              element={
+                <>
+                  <Sidebar>
+                    <DashboardHome />
+                  </Sidebar>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/manage-users"
+              element={
+                <>
+                  <Sidebar>
+                    <ManageUsers />
+                  </Sidebar>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/tickets"
+              element={
+                <>
+                  <Sidebar>
+                    <Tickets />
+                  </Sidebar>
+                </>
+              }
+            ></Route>
+          </Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+
+          <Route path="/project/view/">
+            <Route
+              path=":id"
+              element={
+                <>
+                  <Sidebar>
+                    <ViewProject />
+                  </Sidebar>
+                </>
+              }
+            />
+          </Route>
+        </Routes>
+      </div>
+    </MuiThemeProvider>
   );
 }
 

@@ -1,7 +1,9 @@
 .selected{
     background-color: rgb(25, 118, 210);
 }
-
+*{
+    font-family: 'Oswald', sans-serif;
+  }
 .ticket-row:hover{
     background-color: rgb(25, 118, 210);
     cursor: pointer;
