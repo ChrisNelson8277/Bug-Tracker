@@ -38,7 +38,7 @@ const EditUser = (props) => {
       id: props.user.id,
       number: number,
     };
-    fetch("http://localhost:5000/update/user", {
+    fetch("https://awful-teddy-clam.cyclic.app/update/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

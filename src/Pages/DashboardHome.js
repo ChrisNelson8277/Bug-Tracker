@@ -25,7 +25,7 @@ const DashboardHome = () => {
 
   const dispatch = useDispatch();
   const fetchUsers = () => {
-    fetch("http://localhost:5000/get/users", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const DashboardHome = () => {
   const fetchTickets = () => {
     const author = auth.name;
     if (auth.role == "admin") {
-      fetch("http://localhost:5000/get/adminTickets", {
+      fetch("https://awful-teddy-clam.cyclic.app/get/adminTickets", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const DashboardHome = () => {
     }
   };
   useEffect(() => {
-    fetch("http://localhost:5000/get/allprojects", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/allprojects", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -48,7 +48,7 @@ const EditTicket = (props) => {
       ticketId: props.currentTicket.ticket_id,
     };
     console.log(information.assignedTo);
-    fetch("http://localhost:5000/edit/ticket", {
+    fetch("https://awful-teddy-clam.cyclic.app/edit/ticket", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

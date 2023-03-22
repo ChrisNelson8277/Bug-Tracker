@@ -27,7 +27,7 @@ export default function TransferTicket(props) {
   const [left, setLeft] = useState(["Danny", "Timmy", "Jimmy", "Lenny"]);
   const [right, setRight] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/get/users", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

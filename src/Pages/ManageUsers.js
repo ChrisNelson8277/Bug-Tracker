@@ -28,7 +28,7 @@ const ManageUsers = () => {
   const [currentUser, setCurrentUser] = useState();
   const [forceUpdate, setForceUpdate] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/get/users", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

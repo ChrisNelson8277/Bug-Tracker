@@ -27,7 +27,7 @@ const TicketInformation = (props) => {
       date: moment().format("MMMM Do YYYY"),
       comment: commentData,
     };
-    fetch("http://localhost:5000/add/comment", {
+    fetch("https://awful-teddy-clam.cyclic.app/add/comment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
