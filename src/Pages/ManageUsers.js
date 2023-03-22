@@ -46,7 +46,6 @@ const ManageUsers = () => {
         console.error(e.error);
       });
   }, [forceUpdate]);
-  console.log(users);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - 2) : 0;
 
   const handleChangePage = (event, newPage) => {
@@ -173,8 +172,10 @@ const ManageUsers = () => {
                   <TableCell align="left">
                     <Button
                       onClick={() => {
-                        setOpenModal(true);
                         setCurrentUser(row);
+                        setTimeout(() => {
+                          setOpenModal(true);
+                        }, 100);
                       }}
                       //   style={{ backgroundColor: "red" }}
                       variant="contained"

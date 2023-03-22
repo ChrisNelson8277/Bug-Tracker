@@ -52,7 +52,7 @@ export default function TransferList(props) {
         });
       })
       .catch((e) => {
-        console.error(e.error);
+        error(e.error);
       });
   }, []);
   /*left should pull all developers by default */

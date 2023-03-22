@@ -38,9 +38,6 @@ const Tickets = () => {
       })
       .then((data) => {
         dispatch(setTickets(data.results.reverse()));
-        setTimeout(() => {
-          console.log(tickets);
-        }, 100);
       })
       .catch((e) => {
         console.error(e.error);

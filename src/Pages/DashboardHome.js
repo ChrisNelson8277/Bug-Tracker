@@ -80,7 +80,6 @@ const DashboardHome = () => {
       });
   };
   const sortTickets = (ticketss) => {
-    console.log("attempting ticket sort", ticketss);
     let low = 0;
     let med = 0;
     let high = 0;

@@ -17,12 +17,10 @@ const EditUser = (props) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
-    return () => {
-      setName(props.user.name);
-      setEmail(props.user.email);
-      setRole(props.user.role);
-      setNumber(props.user.number);
-    };
+    setName(props.user.name);
+    setEmail(props.user.email);
+    setRole(props.user.role);
+    setNumber(props.user.number);
   }, []);
   const handleChangeType = (event) => {
     setRole(event.target.value);

@@ -48,7 +48,6 @@ const TicketTable = (props, { update }) => {
       })
       .then((data) => {
         if (data.code === 200) {
-          console.log(data.results);
           props.setTickets(data.results);
           setLoading(false);
           //   let ticketData = [];

@@ -62,7 +62,6 @@ export default function SignUp() {
       })
       .then((data) => {
         if (data.code === 200) {
-          console.log(data);
           const newData = {
             role: data.role,
             name: data.name,

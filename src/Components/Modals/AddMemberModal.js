@@ -25,7 +25,6 @@ const AddMemberModal = (props) => {
   function closeModal() {
     props.setOpenModal(false);
   }
-  console.log(assigned);
   function submitAddProject() {
     const information = {
       id: props.currentProject[0].id,

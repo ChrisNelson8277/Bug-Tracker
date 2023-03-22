@@ -35,12 +35,10 @@ export default function EditTransfer(props) {
           return element.name === el.name;
         });
       });
-      console.log(res);
       setLeft(res);
       return res;
     };
     filterDevs();
-    console.log(assignedDevs, props.members);
     setRight(assignedDevs);
     props.setAssigned(assignedDevs);
   }, []);
@@ -84,7 +82,6 @@ export default function EditTransfer(props) {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     props.setAssigned(not(right, rightChecked));
-    console.log(props.assigned);
     setChecked(not(checked, rightChecked));
   };
 

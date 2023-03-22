@@ -37,7 +37,6 @@ const AddTicket = (props) => {
       priority === "" ||
       status === ""
     ) {
-      console.log(type, priority, status);
       toast.error("Please Fill Out All Fields!");
       return;
     }

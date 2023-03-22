@@ -18,7 +18,7 @@ const AddProject = (props) => {
       description: description,
       assignedto: worker,
     };
-    fetch("https://awful-teddy-clam.cyclic.app/add/project", {
+    fetch("http://localhost:5000/add/project", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -32,7 +32,6 @@ const AddProject = (props) => {
         return res.json().then((json) => Promise.reject(json));
       })
       .then((data) => {
-        console.log(data);
         if (data.code === 200) {
           props.setUpdate(Math.random());
           props.setOpenModal(false);

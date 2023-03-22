@@ -30,6 +30,7 @@ const Sidebar = (props) => {
   const logout = (text) => {
     dispatch(signOut());
     localStorage.removeItem("user");
+    navigate("/");
   };
   return (
     <Box sx={{ display: "flex", fontFamily: "'Oswald', sans-serif" }}>

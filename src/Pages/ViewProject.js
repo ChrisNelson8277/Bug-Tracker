@@ -21,7 +21,6 @@ const ViewProject = () => {
   const [currentTicket, setCurrentTicket] = useState();
   const [comments, setComments] = useState();
   let { id } = useParams();
-  console.log(update);
   useEffect(() => {
     const information = {
       id: id,

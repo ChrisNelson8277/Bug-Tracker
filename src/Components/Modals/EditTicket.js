@@ -23,15 +23,12 @@ const EditTicket = (props) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   useEffect(() => {
-    return () => {
-      setName(props.currentTicket.title);
-      setDescription(props.currentTicket.description);
-      setPriority(props.currentTicket.priority);
-      setType(props.currentTicket.type);
-      setStatus(props.currentTicket.status);
-    };
+    setName(props.currentTicket.title);
+    setDescription(props.currentTicket.description);
+    setPriority(props.currentTicket.priority);
+    setType(props.currentTicket.type);
+    setStatus(props.currentTicket.status);
   }, [update]);
-  console.log(props.currentTicket);
   function submitAddProject() {
     if (auth.name === "Demo_Admin") {
       setError(true);
@@ -47,7 +44,6 @@ const EditTicket = (props) => {
       assignedTo: assigned,
       ticketId: props.currentTicket.ticket_id,
     };
-    console.log(information.assignedTo);
     fetch("https://awful-teddy-clam.cyclic.app/edit/ticket", {
       method: "POST",
       headers: {
@@ -219,7 +215,6 @@ const EditTicket = (props) => {
                 <MenuItem value={"low"}>low</MenuItem>
                 <MenuItem value={"medium"}>medium</MenuItem>
                 <MenuItem value={"high"}>high</MenuItem>
-                <MenuItem value={"immediate"}>immediate</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ width: "25%" }}>

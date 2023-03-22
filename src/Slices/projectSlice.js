@@ -14,7 +14,6 @@ const slice = createSlice({
       };
     },
     setCurrentProject: (state, action) => {
-      console.log(action.payload);
       state.projects = {
         current: action.payload,
       };

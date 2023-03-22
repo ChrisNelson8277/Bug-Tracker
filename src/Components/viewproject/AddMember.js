@@ -40,12 +40,10 @@ export default function AddMember(props) {
           return element.name === el.name;
         });
       });
-      console.log(res);
       setLeft(res);
       return res;
     };
     filterDevs();
-    console.log(assignedDevs, props.members);
     setRight(assignedDevs);
     props.setAssigned(assignedDevs);
   }, []);
