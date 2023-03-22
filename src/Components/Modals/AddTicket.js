@@ -52,7 +52,7 @@ const AddTicket = (props) => {
       projectName: props.currentProject[0].name,
       assignedTo: assigned,
     };
-    fetch("http://localhost:5000/add/ticket", {
+    fetch("https://awful-teddy-clam.cyclic.app/add/ticket", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

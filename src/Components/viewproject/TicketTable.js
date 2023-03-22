@@ -33,7 +33,7 @@ const TicketTable = (props, { update }) => {
     setPage(0);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/get/tickets", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/tickets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
