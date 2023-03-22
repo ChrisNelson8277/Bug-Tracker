@@ -25,7 +25,7 @@ const Tickets = () => {
   const userName = auth.name;
 
   useEffect(() => {
-    fetch("http://localhost:5000/get/userTickets", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/userTickets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

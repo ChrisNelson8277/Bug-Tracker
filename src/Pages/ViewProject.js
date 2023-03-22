@@ -26,7 +26,7 @@ const ViewProject = () => {
     const information = {
       id: id,
     };
-    fetch("http://localhost:5000/get/project", {
+    fetch("https://awful-teddy-clam.cyclic.app/get/project", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

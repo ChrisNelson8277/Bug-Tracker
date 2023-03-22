@@ -31,7 +31,7 @@ const AddMemberModal = (props) => {
       id: props.currentProject[0].id,
       assignedTo: assigned,
     };
-    fetch("http://localhost:5000/update/projectUsers", {
+    fetch("https://awful-teddy-clam.cyclic.app/update/projectUsers", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -48,7 +48,7 @@ const AddMemberModal = (props) => {
         if (data.code === 200) {
           props.setOpenMemberModal(false);
           props.setUpdate(Math.random());
-          toast.success("Member(s) added to project");
+          toast.success("Member(s) Updated!");
         }
         // props.setUpdate(Math.random());
         // props.setOpenModal(false);

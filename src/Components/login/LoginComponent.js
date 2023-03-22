@@ -37,14 +37,6 @@ const LoginComponent = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    first;
-
-    return () => {
-      second;
-    };
-  }, []);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -53,7 +45,7 @@ const LoginComponent = () => {
       password: data.get("password"),
     };
 
-    fetch("http://localhost:5000/login/", {
+    fetch("https://awful-teddy-clam.cyclic.app/login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +78,7 @@ const LoginComponent = () => {
       user: "demo",
       password: "no password",
     };
-    fetch("http://localhost:5000/login/demo", {
+    fetch("https://awful-teddy-clam.cyclic.app/login/demo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
