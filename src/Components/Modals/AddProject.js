@@ -18,7 +18,7 @@ const AddProject = (props) => {
       description: description,
       assignedto: worker,
     };
-    fetch("http://localhost:5000/add/project", {
+    fetch("https://awful-teddy-clam.cyclic.app/add/project", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
